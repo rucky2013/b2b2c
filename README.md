@@ -24,10 +24,7 @@ java 开源b2b2c多用户电商平台
 * 打包部署项目到`tomcat`等应用服务器中
 * 创建一个空的`mysql`数据库(确保`mysql`数据库编码为`utf-8`)
 
-
-
-部署到服务器：
-
-在本地使用myeclipse之类的工具将项目打包成war包，上传到服务器tomcat的webapps目录下。
-
-或者直接在本地tomcat的webapps下面部署的项目压缩一下，上传到服务器tomcat的webapps目录下并解压缩。
+部署到服务器
+===
+* 在本地使用IDEA集成开发工具将项目打包成war包，上传到服务器`tomcat`的`webapps`目录下
+* 或者直接在本地`tomcat`的`webapps`下面部署的项目压缩，上传到服务器`tomcat`的`webapps`目录下并解压缩。
