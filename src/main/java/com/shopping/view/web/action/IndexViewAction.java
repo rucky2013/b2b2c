@@ -33,7 +33,6 @@ import com.shopping.foundation.domain.Store;
 import com.shopping.foundation.domain.StoreCart;
 import com.shopping.foundation.domain.SysConfig;
 import com.shopping.foundation.domain.User;
-import com.shopping.foundation.service.IAccessoryService;
 import com.shopping.foundation.service.IArticleClassService;
 import com.shopping.foundation.service.IArticleService;
 import com.shopping.foundation.service.IBargainGoodsService;
@@ -46,9 +45,7 @@ import com.shopping.foundation.service.IGoodsService;
 import com.shopping.foundation.service.IGroupGoodsService;
 import com.shopping.foundation.service.IGroupService;
 import com.shopping.foundation.service.IMessageService;
-import com.shopping.foundation.service.INavigationService;
 import com.shopping.foundation.service.IPartnerService;
-import com.shopping.foundation.service.IRoleService;
 import com.shopping.foundation.service.IStoreCartService;
 import com.shopping.foundation.service.IStoreService;
 import com.shopping.foundation.service.ISysConfigService;
@@ -79,9 +76,6 @@ public class IndexViewAction {
 	private IPartnerService partnerService;
 
 	@Autowired
-	private IRoleService roleService;
-
-	@Autowired
 	private IUserService userService;
 
 	@Autowired
@@ -91,9 +85,6 @@ public class IndexViewAction {
 	private IArticleService articleService;
 
 	@Autowired
-	private IAccessoryService accessoryService;
-
-	@Autowired
 	private IMessageService messageService;
 
 	@Autowired
@@ -101,9 +92,6 @@ public class IndexViewAction {
 
 	@Autowired
 	private IGoodsService goodsService;
-
-	@Autowired
-	private INavigationService navigationService;
 
 	@Autowired
 	private IGroupGoodsService groupGoodsService;

@@ -1,17 +1,29 @@
 package com.shopping.view.web.action;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.shopping.core.domain.virtual.SysMap;
 import com.shopping.core.mv.JModelAndView;
 import com.shopping.core.query.support.IPageList;
 import com.shopping.core.security.support.SecurityUserHolder;
 import com.shopping.core.tools.CommUtil;
-import com.shopping.foundation.domain.Goods;
 import com.shopping.foundation.domain.GoodsCart;
 import com.shopping.foundation.domain.Group;
-import com.shopping.foundation.domain.GroupArea;
 import com.shopping.foundation.domain.GroupGoods;
 import com.shopping.foundation.domain.GroupPriceRange;
-import com.shopping.foundation.domain.Store;
 import com.shopping.foundation.domain.User;
 import com.shopping.foundation.domain.query.GoodsQueryObject;
 import com.shopping.foundation.domain.query.GroupGoodsQueryObject;
@@ -23,23 +35,9 @@ import com.shopping.foundation.service.IGroupClassService;
 import com.shopping.foundation.service.IGroupGoodsService;
 import com.shopping.foundation.service.IGroupPriceRangeService;
 import com.shopping.foundation.service.IGroupService;
-import com.shopping.foundation.service.IOrderFormService;
 import com.shopping.foundation.service.ISysConfigService;
 import com.shopping.foundation.service.IUserConfigService;
-import com.shopping.foundation.service.IUserService;
 import com.shopping.view.web.tools.GroupViewTools;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class GroupViewAction {
@@ -69,13 +67,7 @@ public class GroupViewAction {
 	private IGoodsService goodsService;
 
 	@Autowired
-	private IOrderFormService orderFormService;
-
-	@Autowired
 	private IGoodsCartService goodsCartService;
-
-	@Autowired
-	private IUserService userService;
 
 	@Autowired
 	private GroupViewTools groupViewTools;

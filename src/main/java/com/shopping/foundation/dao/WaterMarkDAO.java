@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.WaterMark;
 import org.springframework.stereotype.Repository;
 
 @Repository("waterMarkDAO")
-public class WaterMarkDAO extends GenericDAO<WaterMark>
-{
+public class WaterMarkDAO extends GenericDAO<WaterMark> {
 }
-

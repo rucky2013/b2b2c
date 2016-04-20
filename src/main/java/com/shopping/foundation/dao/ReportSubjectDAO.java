@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.ReportSubject;
 import org.springframework.stereotype.Repository;
 
 @Repository("reportSubjectDAO")
-public class ReportSubjectDAO extends GenericDAO<ReportSubject>
-{
+public class ReportSubjectDAO extends GenericDAO<ReportSubject> {
 }
-

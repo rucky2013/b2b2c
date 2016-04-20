@@ -26,7 +26,6 @@ import com.shopping.foundation.domain.GoodsBrand;
 import com.shopping.foundation.domain.query.GoodsQueryObject;
 import com.shopping.foundation.service.IGoodsBrandCategoryService;
 import com.shopping.foundation.service.IGoodsBrandService;
-import com.shopping.foundation.service.IGoodsClassService;
 import com.shopping.foundation.service.IGoodsService;
 import com.shopping.foundation.service.ISysConfigService;
 import com.shopping.foundation.service.IUserConfigService;
@@ -40,9 +39,6 @@ public class BrandViewAction {
 
 	@Autowired
 	private IUserConfigService userConfigService;
-
-	@Autowired
-	private IGoodsClassService goodsClassService;
 
 	@Autowired
 	private IGoodsService goodsService;

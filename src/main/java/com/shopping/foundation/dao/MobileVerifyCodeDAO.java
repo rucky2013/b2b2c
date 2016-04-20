@@ -5,6 +5,5 @@ import com.shopping.foundation.domain.MobileVerifyCode;
 import org.springframework.stereotype.Repository;
 
 @Repository("mobileVerifyCodeDAO")
-public class MobileVerifyCodeDAO extends GenericDAO<MobileVerifyCode>
-{
+public class MobileVerifyCodeDAO extends GenericDAO<MobileVerifyCode> {
 }

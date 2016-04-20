@@ -1,5 +1,17 @@
 package com.shopping.view.web.action;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.shopping.core.domain.virtual.SysMap;
 import com.shopping.core.mv.JModelAndView;
 import com.shopping.core.query.support.IPageList;
@@ -7,9 +19,6 @@ import com.shopping.core.tools.CommUtil;
 import com.shopping.foundation.domain.Store;
 import com.shopping.foundation.domain.StoreClass;
 import com.shopping.foundation.domain.StoreNavigation;
-import com.shopping.foundation.domain.StorePoint;
-import com.shopping.foundation.domain.SysConfig;
-import com.shopping.foundation.domain.User;
 import com.shopping.foundation.domain.query.EvaluateQueryObject;
 import com.shopping.foundation.domain.query.GoodsQueryObject;
 import com.shopping.foundation.domain.query.StoreQueryObject;
@@ -25,15 +34,6 @@ import com.shopping.foundation.service.IUserGoodsClassService;
 import com.shopping.view.web.tools.AreaViewTools;
 import com.shopping.view.web.tools.GoodsViewTools;
 import com.shopping.view.web.tools.StoreViewTools;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class StoreViewAction {

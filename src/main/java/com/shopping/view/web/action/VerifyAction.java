@@ -1,9 +1,5 @@
 package com.shopping.view.web.action;
 
-import com.shopping.core.tools.CommUtil;
-import com.shopping.foundation.service.IGroupService;
-import com.shopping.foundation.service.IStoreService;
-import com.shopping.foundation.service.IUserService;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,14 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.shopping.core.tools.CommUtil;
+import com.shopping.foundation.service.IStoreService;
+import com.shopping.foundation.service.IUserService;
 
 @Controller
 public class VerifyAction {
@@ -31,9 +33,6 @@ public class VerifyAction {
 
 	@Autowired
 	private IStoreService storeService;
-
-	@Autowired
-	private IGroupService groupService;
 
 	@RequestMapping({ "/verify_code.htm" })
 	public void validate_code(HttpServletRequest request, HttpServletResponse response, String code, String code_name) {

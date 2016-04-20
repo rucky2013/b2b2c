@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.Transport;
 import org.springframework.stereotype.Repository;
 
 @Repository("transportDAO")
-public class TransportDAO extends GenericDAO<Transport>
-{
+public class TransportDAO extends GenericDAO<Transport> {
 }
-

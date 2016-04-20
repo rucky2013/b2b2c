@@ -1,7 +1,5 @@
 package com.shopping.core.tools;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
@@ -29,8 +27,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+
 import javax.imageio.ImageIO;
+
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class ImageCompress extends Frame {
 	private static final long serialVersionUID = 48L;
@@ -122,7 +123,8 @@ public class ImageCompress extends Frame {
 			int imageWidth = image.getWidth(null);
 			int imageHeight = image.getHeight(null);
 
-			float scale = getRatio(imageWidth, imageHeight, Integer.parseInt(this.textWidth.getText()), Integer.parseInt(this.textWidth.getText()));
+			float scale = getRatio(imageWidth, imageHeight, Integer.parseInt(this.textWidth.getText()),
+					Integer.parseInt(this.textWidth.getText()));
 			imageWidth = (int) (scale * imageWidth);
 			imageHeight = (int) (scale * imageHeight);
 

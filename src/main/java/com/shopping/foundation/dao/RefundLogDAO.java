@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.RefundLog;
 import org.springframework.stereotype.Repository;
 
 @Repository("refundLogDAO")
-public class RefundLogDAO extends GenericDAO<RefundLog>
-{
+public class RefundLogDAO extends GenericDAO<RefundLog> {
 }
-

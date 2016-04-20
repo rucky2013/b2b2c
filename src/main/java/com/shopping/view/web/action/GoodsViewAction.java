@@ -90,9 +90,6 @@ public class GoodsViewAction {
 	private IEvaluateService evaluateService;
 
 	@Autowired
-	private IOrderFormService orderFormService;
-
-	@Autowired
 	private IGoodsCartService goodsCartService;
 
 	@Autowired

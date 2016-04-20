@@ -30,107 +30,104 @@ public class ShopFilter implements Filter {
 	public void destroy() {
 	}
 
-	public void doFilter( ServletRequest req, ServletResponse res, FilterChain chain ) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
 		SysConfig config = this.configService.getSysConfig();
-		HttpServletResponse response = (HttpServletResponse)res;
-		HttpServletRequest request = (HttpServletRequest)req;
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpServletRequest request = (HttpServletRequest) req;
 		String url = request.getRequestURI();
 		boolean redirect = false;
 		String redirect_url = "";
-		String path = request.getSession().getServletContext().getRealPath( "/" ) + "install.lock";
-		File file = new File( path );
-		if( file.exists() ) {
-			if( !config.isWebsiteState() ) {
-				if( init_url( url ) ) {
-					if( (url.indexOf( "/admin" ) < 0) && (url.indexOf( "/install.htm" ) <= 0) ) {
+		String path = request.getSession().getServletContext().getRealPath("/") + "install.lock";
+		File file = new File(path);
+		if (file.exists()) {
+			if (!config.isWebsiteState()) {
+				if (init_url(url)) {
+					if ((url.indexOf("/admin") < 0) && (url.indexOf("/install.htm") <= 0)) {
 						redirect = true;
-						redirect_url = CommUtil.getURL( request ) + "/close.htm";
+						redirect_url = CommUtil.getURL(request) + "/close.htm";
 					}
-					if( url.indexOf( "/login.htm" ) >= 0 ) {
+					if (url.indexOf("/login.htm") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "close.htm" ) >= 0 ) {
+					if (url.indexOf("close.htm") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "/resources/" ) >= 0 ) {
+					if (url.indexOf("/resources/") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "js.htm" ) >= 0 ) {
+					if (url.indexOf("js.htm") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "/logout_success.htm" ) >= 0 ) {
+					if (url.indexOf("/logout_success.htm") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "/verify.htm" ) >= 0 ) {
+					if (url.indexOf("/verify.htm") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "/login_success.htm" ) >= 0 ) {
+					if (url.indexOf("/login_success.htm") >= 0) {
 						redirect = false;
 					}
-					if( url.indexOf( "/install.htm" ) >= 0 ) {
+					if (url.indexOf("/install.htm") >= 0) {
 						redirect = true;
-						redirect_url = CommUtil.getURL( request ) + "/install_over.htm";
+						redirect_url = CommUtil.getURL(request) + "/install_over.htm";
 					}
-					if( url.indexOf( "/install_over.htm" ) >= 0 )
+					if (url.indexOf("/install_over.htm") >= 0)
 						redirect = false;
 				}
-			}
-			else {
+			} else {
 				User user = SecurityUserHolder.getCurrentUser();
-				if( user != null ) {
-					if( url.indexOf( "/login.htm" ) >= 0 ) {
+				if (user != null) {
+					if (url.indexOf("/login.htm") >= 0) {
 						redirect = true;
-						redirect_url = CommUtil.getURL( request ) + "/index.htm";
+						redirect_url = CommUtil.getURL(request) + "/index.htm";
 					}
-					if( url.indexOf( "/register.htm" ) >= 0 ) {
+					if (url.indexOf("/register.htm") >= 0) {
 						redirect = true;
-						redirect_url = CommUtil.getURL( request ) + "/index.htm";
+						redirect_url = CommUtil.getURL(request) + "/index.htm";
 					}
-				}
-				else if( url.indexOf( "/install" ) < 0 ) {
+				} else if (url.indexOf("/install") < 0) {
 					redirect = false;
-				}
-				else {
-					redirect_url = CommUtil.getURL( request ) + "/index.htm";
+				} else {
+					redirect_url = CommUtil.getURL(request) + "/index.htm";
 					redirect = true;
 				}
 			}
 
-		}
-		else if( init_url( url ) ) {
-			redirect_url = CommUtil.getURL( request ) + "/install.htm";
+		} else if (init_url(url)) {
+			redirect_url = CommUtil.getURL(request) + "/install.htm";
 			redirect = true;
-			if( url.indexOf( "/install" ) >= 0 ) {
+			if (url.indexOf("/install") >= 0) {
 				redirect = false;
 			}
 		}
 
-		if( redirect )
-			response.sendRedirect( redirect_url );
+		if (redirect)
+			response.sendRedirect(redirect_url);
 		else
-			chain.doFilter( req, res );
+			chain.doFilter(req, res);
 	}
 
-	public void init( FilterConfig config ) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
 	}
 
-	private boolean init_url( String url ) {
+	private boolean init_url(String url) {
 		String prifix = "";
-		if( url.indexOf( "." ) > 0 )
-			prifix = url.substring( url.lastIndexOf( "." ) + 1 );
+		if (url.indexOf(".") > 0)
+			prifix = url.substring(url.lastIndexOf(".") + 1);
 		else {
 			prifix = url;
 		}
 		String[] extend_list = { "css", "jpg", "jpeg", "png", "gif", "bmp", "js" };
 		String[] servlet_list = { "/image/upload" };
 		boolean flag = true;
-		for( String temp : extend_list ) {
-			if( temp.equals( prifix ) ) {
+		for (String temp : extend_list) {
+			if (temp.equals(prifix)) {
 				flag = false;
 			}
 		}
-		for( String temp : servlet_list ) {
-			if( prifix.indexOf( temp ) >= 0 ) {
+		for (String temp : servlet_list) {
+			if (prifix.indexOf(temp) >= 0) {
 				flag = false;
 			}
 		}

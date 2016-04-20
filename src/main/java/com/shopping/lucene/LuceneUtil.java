@@ -67,7 +67,8 @@ public class LuceneUtil {
 		index_path = index_path2;
 	}
 
-	public List<LuceneVo> searchIndex(String keyword, int start, int size, double begin_price, double end_price, Sort sort) throws IOException {
+	public List<LuceneVo> searchIndex(String keyword, int start, int size, double begin_price, double end_price,
+			Sort sort) throws IOException {
 		IndexSearcher searcher = null;
 		List list = new ArrayList();
 		IndexReader reader = null;
@@ -124,7 +125,8 @@ public class LuceneUtil {
 		return list;
 	}
 
-	public LuceneResult search(String params, int pageNo, double begin_price, double end_price, ScoreDoc after, Sort sort) {
+	public LuceneResult search(String params, int pageNo, double begin_price, double end_price, ScoreDoc after,
+			Sort sort) {
 		LuceneResult pList = new LuceneResult();
 		IndexSearcher isearcher = null;
 		List list = new ArrayList();
@@ -153,7 +155,8 @@ public class LuceneUtil {
 			int intPageNo = pageNo > pages ? pages : pageNo;
 			if (intPageNo < 1)
 				intPageNo = 1;
-			List vo_list = searchIndex(params, (intPageNo - 1) * this.pageSize, this.pageSize, begin_price, end_price, sort);
+			List vo_list = searchIndex(params, (intPageNo - 1) * this.pageSize, this.pageSize, begin_price, end_price,
+					sort);
 			pList.setPages(pages);
 			pList.setRows(topDocs.totalHits);
 			pList.setCurrentPage(intPageNo);
@@ -302,14 +305,19 @@ public class LuceneUtil {
 		Document document = new Document();
 		Whitelist white = new Whitelist();
 		Field id = new Field("id", String.valueOf(luceneVo.getVo_id()), Field.Store.YES, Field.Index.ANALYZED);
-		Field title = new Field("title", Jsoup.clean(luceneVo.getVo_title(), Whitelist.none()), Field.Store.YES, Field.Index.ANALYZED);
+		Field title = new Field("title", Jsoup.clean(luceneVo.getVo_title(), Whitelist.none()), Field.Store.YES,
+				Field.Index.ANALYZED);
 		title.setBoost(10.0F);
-		Field content = new Field("content", Jsoup.clean(luceneVo.getVo_content(), Whitelist.none()), Field.Store.YES, Field.Index.ANALYZED);
+		Field content = new Field("content", Jsoup.clean(luceneVo.getVo_content(), Whitelist.none()), Field.Store.YES,
+				Field.Index.ANALYZED);
 		Field type = new Field("type", luceneVo.getVo_type(), Field.Store.YES, Field.Index.ANALYZED);
 		NumericField store_price = new NumericField("store_price", Field.Store.YES, true);
 		store_price.setDoubleValue(luceneVo.getVo_store_price());
-		Field add_time = new Field("add_time", CommUtil.null2String(Long.valueOf(luceneVo.getVo_add_time())), Field.Store.YES, Field.Index.ANALYZED);
-		Field goods_salenum = new Field("goods_salenum", CommUtil.null2String(Integer.valueOf(luceneVo.getVo_goods_salenum())), Field.Store.YES, Field.Index.ANALYZED);
+		Field add_time = new Field("add_time", CommUtil.null2String(Long.valueOf(luceneVo.getVo_add_time())),
+				Field.Store.YES, Field.Index.ANALYZED);
+		Field goods_salenum = new Field("goods_salenum",
+				CommUtil.null2String(Integer.valueOf(luceneVo.getVo_goods_salenum())), Field.Store.YES,
+				Field.Index.ANALYZED);
 		document.add(id);
 		document.add(title);
 		document.add(content);

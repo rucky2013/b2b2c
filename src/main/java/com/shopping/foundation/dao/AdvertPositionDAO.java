@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.AdvertPosition;
 import org.springframework.stereotype.Repository;
 
 @Repository("advertPositionDAO")
-public class AdvertPositionDAO extends GenericDAO<AdvertPosition>
-{
+public class AdvertPositionDAO extends GenericDAO<AdvertPosition> {
 }
-

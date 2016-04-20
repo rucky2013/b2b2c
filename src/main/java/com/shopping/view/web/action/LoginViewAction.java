@@ -1,30 +1,10 @@
 package com.shopping.view.web.action;
 
-import com.shopping.core.mv.JModelAndView;
-import com.shopping.core.security.support.SecurityUserHolder;
-import com.shopping.core.tools.CommUtil;
-import com.shopping.core.tools.Md5Encrypt;
-import com.shopping.foundation.domain.Album;
-import com.shopping.foundation.domain.IntegralLog;
-import com.shopping.foundation.domain.SysConfig;
-import com.shopping.foundation.domain.User;
-import com.shopping.foundation.service.IAlbumService;
-import com.shopping.foundation.service.IIntegralLogService;
-import com.shopping.foundation.service.IRoleService;
-import com.shopping.foundation.service.ISysConfigService;
-import com.shopping.foundation.service.IUserConfigService;
-import com.shopping.foundation.service.IUserService;
-import com.shopping.uc.api.UCClient;
-import com.shopping.uc.api.UCTools;
-import com.shopping.view.web.tools.ImageViewTools;
-
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +15,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.shopping.core.mv.JModelAndView;
+import com.shopping.core.security.support.SecurityUserHolder;
+import com.shopping.core.tools.CommUtil;
+import com.shopping.core.tools.Md5Encrypt;
+import com.shopping.foundation.domain.Album;
+import com.shopping.foundation.domain.IntegralLog;
+import com.shopping.foundation.domain.User;
+import com.shopping.foundation.service.IAlbumService;
+import com.shopping.foundation.service.IIntegralLogService;
+import com.shopping.foundation.service.IRoleService;
+import com.shopping.foundation.service.ISysConfigService;
+import com.shopping.foundation.service.IUserConfigService;
+import com.shopping.foundation.service.IUserService;
+import com.shopping.uc.api.UCClient;
+import com.shopping.uc.api.UCTools;
+import com.shopping.view.web.tools.ImageViewTools;
 
 @Controller
 public class LoginViewAction {

@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.Consult;
 import org.springframework.stereotype.Repository;
 
 @Repository("consultDAO")
-public class ConsultDAO extends GenericDAO<Consult>
-{
+public class ConsultDAO extends GenericDAO<Consult> {
 }
-

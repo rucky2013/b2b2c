@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.SnsFriend;
 import org.springframework.stereotype.Repository;
 
 @Repository("snsFriendDAO")
-public class SnsFriendDAO extends GenericDAO<SnsFriend>
-{
+public class SnsFriendDAO extends GenericDAO<SnsFriend> {
 }
-

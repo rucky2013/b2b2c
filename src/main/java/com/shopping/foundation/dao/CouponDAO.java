@@ -5,6 +5,5 @@ import com.shopping.foundation.domain.Coupon;
 import org.springframework.stereotype.Repository;
 
 @Repository("couponDAO")
-public class CouponDAO extends GenericDAO<Coupon>
-{
+public class CouponDAO extends GenericDAO<Coupon> {
 }

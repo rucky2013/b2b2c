@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.Favorite;
 import org.springframework.stereotype.Repository;
 
 @Repository("favoriteDAO")
-public class FavoriteDAO extends GenericDAO<Favorite>
-{
+public class FavoriteDAO extends GenericDAO<Favorite> {
 }
-

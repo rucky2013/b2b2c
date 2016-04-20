@@ -1,5 +1,19 @@
 package com.shopping.view.web.action;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.shopping.core.domain.virtual.SysMap;
 import com.shopping.core.mv.JModelAndView;
 import com.shopping.core.query.support.IPageList;
@@ -8,7 +22,6 @@ import com.shopping.core.tools.CommUtil;
 import com.shopping.foundation.domain.Area;
 import com.shopping.foundation.domain.SpareGoods;
 import com.shopping.foundation.domain.SpareGoodsClass;
-import com.shopping.foundation.domain.User;
 import com.shopping.foundation.domain.query.SpareGoodsQueryObject;
 import com.shopping.foundation.service.IAreaService;
 import com.shopping.foundation.service.INavigationService;
@@ -18,17 +31,6 @@ import com.shopping.foundation.service.ISpareGoodsService;
 import com.shopping.foundation.service.ISysConfigService;
 import com.shopping.foundation.service.IUserConfigService;
 import com.shopping.view.web.tools.SpareGoodsViewTools;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class SpareGoodsViewAction {

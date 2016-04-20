@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.Role;
 import org.springframework.stereotype.Repository;
 
 @Repository("roleDAO")
-public class RoleDAO extends GenericDAO<Role>
-{
+public class RoleDAO extends GenericDAO<Role> {
 }
-

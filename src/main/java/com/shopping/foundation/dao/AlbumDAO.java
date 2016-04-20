@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.Album;
 import org.springframework.stereotype.Repository;
 
 @Repository("albumDAO")
-public class AlbumDAO extends GenericDAO<Album>
-{
+public class AlbumDAO extends GenericDAO<Album> {
 }
-

@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.ZTCGoldLog;
 import org.springframework.stereotype.Repository;
 
 @Repository("zTCGlodLogDAO")
-public class ZTCGoldLogDAO extends GenericDAO<ZTCGoldLog>
-{
+public class ZTCGoldLogDAO extends GenericDAO<ZTCGoldLog> {
 }
-

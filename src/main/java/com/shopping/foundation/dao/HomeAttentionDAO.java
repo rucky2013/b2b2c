@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.SnsAttention;
 import org.springframework.stereotype.Repository;
 
 @Repository("homeAttentionDAO")
-public class HomeAttentionDAO extends GenericDAO<SnsAttention>
-{
+public class HomeAttentionDAO extends GenericDAO<SnsAttention> {
 }
-

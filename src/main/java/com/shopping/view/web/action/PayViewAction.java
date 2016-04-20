@@ -1,5 +1,40 @@
 package com.shopping.view.web.action;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.jdom.JDOMException;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.shopping.core.annotation.SecurityMapping;
 import com.shopping.core.mv.JModelAndView;
 import com.shopping.core.security.support.SecurityUserHolder;
@@ -11,7 +46,6 @@ import com.shopping.foundation.domain.GoldRecord;
 import com.shopping.foundation.domain.Goods;
 import com.shopping.foundation.domain.GoodsCart;
 import com.shopping.foundation.domain.GoodsSpecProperty;
-import com.shopping.foundation.domain.Group;
 import com.shopping.foundation.domain.GroupGoods;
 import com.shopping.foundation.domain.IntegralGoods;
 import com.shopping.foundation.domain.IntegralGoodsCart;
@@ -21,8 +55,6 @@ import com.shopping.foundation.domain.OrderFormLog;
 import com.shopping.foundation.domain.Payment;
 import com.shopping.foundation.domain.Predeposit;
 import com.shopping.foundation.domain.PredepositLog;
-import com.shopping.foundation.domain.Store;
-import com.shopping.foundation.domain.SysConfig;
 import com.shopping.foundation.domain.User;
 import com.shopping.foundation.service.IGoldLogService;
 import com.shopping.foundation.service.IGoldRecordService;
@@ -46,44 +78,6 @@ import com.shopping.pay.bill.util.MD5Util;
 import com.shopping.pay.tenpay.RequestHandler;
 import com.shopping.pay.tenpay.ResponseHandler;
 import com.shopping.pay.tenpay.util.TenpayUtil;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.jdom.JDOMException;
-import org.nutz.json.Json;
-import org.nutz.json.JsonFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class PayViewAction {

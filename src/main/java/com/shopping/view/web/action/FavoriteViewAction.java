@@ -1,35 +1,29 @@
 package com.shopping.view.web.action;
 
-import com.shopping.core.security.support.SecurityUserHolder;
-import com.shopping.core.tools.CommUtil;
-import com.shopping.foundation.domain.Favorite;
-import com.shopping.foundation.domain.Goods;
-import com.shopping.foundation.domain.Store;
-import com.shopping.foundation.domain.User;
-import com.shopping.foundation.service.IFavoriteService;
-import com.shopping.foundation.service.IGoodsService;
-import com.shopping.foundation.service.IStoreService;
-import com.shopping.foundation.service.ISysConfigService;
-import com.shopping.foundation.service.IUserConfigService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.shopping.core.security.support.SecurityUserHolder;
+import com.shopping.core.tools.CommUtil;
+import com.shopping.foundation.domain.Favorite;
+import com.shopping.foundation.domain.Goods;
+import com.shopping.foundation.domain.Store;
+import com.shopping.foundation.service.IFavoriteService;
+import com.shopping.foundation.service.IGoodsService;
+import com.shopping.foundation.service.IStoreService;
+
 @Controller
 public class FavoriteViewAction {
-
-	@Autowired
-	private ISysConfigService configService;
-
-	@Autowired
-	private IUserConfigService userConfigService;
 
 	@Autowired
 	private IFavoriteService favoriteService;

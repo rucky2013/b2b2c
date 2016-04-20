@@ -1,5 +1,21 @@
 package com.shopping.view.web.action;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.shopping.core.mv.JModelAndView;
 import com.shopping.core.security.SecurityManager;
 import com.shopping.core.tools.CommUtil;
@@ -7,27 +23,11 @@ import com.shopping.core.tools.Md5Encrypt;
 import com.shopping.core.tools.database.DatabaseTools;
 import com.shopping.foundation.domain.SysConfig;
 import com.shopping.foundation.domain.User;
-import com.shopping.foundation.service.IResService;
-import com.shopping.foundation.service.IRoleGroupService;
-import com.shopping.foundation.service.IRoleService;
 import com.shopping.foundation.service.ISysConfigService;
 import com.shopping.foundation.service.IUserConfigService;
 import com.shopping.foundation.service.IUserService;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.Map;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 import net.sf.ehcache.CacheManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class InstallViewAction implements ServletContextAware {
@@ -41,15 +41,6 @@ public class InstallViewAction implements ServletContextAware {
 
 	@Autowired
 	private IUserService userService;
-
-	@Autowired
-	private IRoleService roleService;
-
-	@Autowired
-	private IRoleGroupService roleGroupService;
-
-	@Autowired
-	private IResService resService;
 
 	@Autowired
 	SecurityManager securityManager;

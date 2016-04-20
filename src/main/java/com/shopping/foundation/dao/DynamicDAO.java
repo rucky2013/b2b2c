@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.Dynamic;
 import org.springframework.stereotype.Repository;
 
 @Repository("dynamicDAO")
-public class DynamicDAO extends GenericDAO<Dynamic>
-{
+public class DynamicDAO extends GenericDAO<Dynamic> {
 }
-

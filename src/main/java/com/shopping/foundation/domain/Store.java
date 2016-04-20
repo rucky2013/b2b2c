@@ -24,95 +24,95 @@ import com.shopping.core.domain.IdEntity;
 @Entity
 @Table(name = "shopping_store")
 public class Store extends IdEntity {
-	//商店名称
+	// 商店名称
 	private String store_name;
-	//店主
+	// 店主
 	private String store_ower;
-	//店主名片
+	// 店主名片
 	private String store_ower_card;
-	//商店电话
+	// 商店电话
 	private String store_telephone;
-	//商店qq
+	// 商店qq
 	private String store_qq;
-	//商店msn
+	// 商店msn
 	private String store_msn;
-	//商店网站
+	// 商店网站
 	private String store_ww;
-	//商店地址
+	// 商店地址
 	private String store_address;
 	private String store_zip;
-	//商店状态
+	// 商店状态
 	private int store_status;
 
-	//用户
+	// 用户
 	@OneToOne(mappedBy = "store", fetch = FetchType.LAZY)
 	private User user;
 
-	//商店级别
+	// 商店级别
 	@ManyToOne(fetch = FetchType.LAZY)
 	private StoreGrade grade;
 
-	//商店类型
+	// 商店类型
 	@ManyToOne(fetch = FetchType.LAZY)
 	private StoreClass sc;
 
-	//商店地址
+	// 商店地址
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Area area;
-	//是否推荐商店
+	// 是否推荐商店
 	private boolean store_recommend;
-	//推荐时间
+	// 推荐时间
 	private Date store_recommend_time;
-	//有效时间
+	// 有效时间
 	private Date validity;
 	private boolean card_approve;
-	
-	//商店logo
+
+	// 商店logo
 	@OneToOne(fetch = FetchType.LAZY)
 	private Accessory store_logo;
 
-	//商店标语
+	// 商店标语
 	@OneToOne(fetch = FetchType.LAZY)
 	private Accessory store_banner;
 
-	//卡片附件
+	// 卡片附件
 	@OneToOne(fetch = FetchType.LAZY)
 	private Accessory card;
 	private boolean realstore_approve;
 
-	//执照附件
+	// 执照附件
 	@OneToOne(fetch = FetchType.LAZY)
 	private Accessory store_license;
 
-	//商品集合
+	// 商品集合
 	@OneToMany(mappedBy = "goods_store")
 	private List<Goods> goods_list = new ArrayList();
-	//商店信用
+	// 商店信用
 	private int store_credit;
-	//模板
+	// 模板
 	private String template;
 
-	//违规原因
+	// 违规原因
 	@Lob
 	@Column(columnDefinition = "LongText")
 	private String violation_reseaon;
 
-	//seo关键字
+	// seo关键字
 	@Lob
 	@Column(columnDefinition = "LongText")
 	private String store_seo_keywords;
 
-	//seo描述
+	// seo描述
 	@Lob
 	@Column(columnDefinition = "LongText")
 	private String store_seo_description;
 
-	//商店信息
+	// 商店信息
 	@Lob
 	@Column(columnDefinition = "LongText")
 	private String store_info;
 
-	//更新等级
+	// 更新等级
 	@OneToOne(fetch = FetchType.LAZY)
 	private StoreGrade update_grade;
 
@@ -131,7 +131,7 @@ public class Store extends IdEntity {
 	@OneToOne(mappedBy = "store", fetch = FetchType.LAZY)
 	private StorePoint point;
 
-	//地图类型
+	// 地图类型
 	@Column(columnDefinition = "varchar(255) default 'baidu'")
 	private String map_type;
 
@@ -140,83 +140,83 @@ public class Store extends IdEntity {
 
 	@Column(precision = 18, scale = 15)
 	private BigDecimal store_lng;
-	//买送开始时间
+	// 买送开始时间
 	private Date delivery_begin_time;
-	//买送结束时间
+	// 买送结束时间
 	private Date delivery_end_time;
-	//组合开始时间
+	// 组合开始时间
 	private Date combin_begin_time;
-	//组合结束时间
+	// 组合结束时间
 	private Date combin_end_time;
 
-	//商店等级记录
+	// 商店等级记录
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<StoreGradeLog> logs = new ArrayList();
 
-	//支付
+	// 支付
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<Payment> payments = new ArrayList();
 
 	@OneToOne(mappedBy = "store", fetch = FetchType.LAZY, cascade = { javax.persistence.CascadeType.REMOVE })
 	private StorePoint sp;
 
-	//商店导航
+	// 商店导航
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<StoreNavigation> navs = new ArrayList();
 
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<Favorite> favs = new ArrayList();
 
-	//商品类型主题
+	// 商品类型主题
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<GoodsClassStaple> gcss = new ArrayList();
 
-	//订单表
+	// 订单表
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<OrderForm> ofs = new ArrayList();
 
-	//投递记录
+	// 投递记录
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<DeliveryLog> delivery_logs = new ArrayList();
 
-	//结合记录
+	// 结合记录
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<CombinLog> combin_logs = new ArrayList();
 
-	//运输集合
+	// 运输集合
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<Transport> transport_list = new ArrayList();
 
 	@OneToMany(mappedBy = "store", cascade = { javax.persistence.CascadeType.REMOVE })
 	private List<Dynamic> dynamics = new ArrayList();
 
-	//微信状态
+	// 微信状态
 	@Column(columnDefinition = "int default 0")
 	private int weixin_status;
 
-	//微信开始时间
+	// 微信开始时间
 	@Temporal(TemporalType.DATE)
 	private Date weixin_begin_time;
 
-	//微信结束时间
+	// 微信结束时间
 	@Temporal(TemporalType.DATE)
 	private Date weixin_end_time;
 
-	//微信图片
+	// 微信图片
 	@OneToOne(fetch = FetchType.LAZY)
 	private Accessory weixin_qr_img;
-	//微信数量
+	// 微信数量
 	private String weixin_account;
 	private String weixin_token;
-	//微信应用ID
+	// 微信应用ID
 	private String weixin_appId;
 	private String weixin_appSecret;
 
-	//微信欢迎内容
+	// 微信欢迎内容
 	@Column(columnDefinition = "LongText")
 	private String weixin_welecome_content;
 
-	//微信店铺logo
+	// 微信店铺logo
 	@OneToOne(fetch = FetchType.LAZY)
 	private Accessory store_weixin_logo;
 

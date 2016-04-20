@@ -5,7 +5,5 @@ import com.shopping.foundation.domain.SysConfig;
 import org.springframework.stereotype.Repository;
 
 @Repository("sysConfigDAO")
-public class SysConfigDAO extends GenericDAO<SysConfig>
-{
+public class SysConfigDAO extends GenericDAO<SysConfig> {
 }
-
