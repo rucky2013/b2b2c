@@ -4,24 +4,24 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>shopping platform V1.3</display-name>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext*.xml</param-value>
+		<param-value>classpath:**/applicationContext-*.xml</param-value>
 	</context-param>
+	
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
 	<!--jpaFilter用来开启session，避免系统domain中出现fetch=FetchType.EAGER-->
 	<filter>
 		<filter-name>jpaFilter</filter-name>
-		<filter-class>
-			org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter
-		</filter-class>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
 		<init-param>
 			<param-name>singleSession</param-name>
 			<param-value>false</param-value>
@@ -35,12 +35,11 @@
 		<filter-name>jpaFilter</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
+	
 	<!--编码过滤器-->
 	<filter>
 		<filter-name>encoding-filter</filter-name>
-		<filter-class>
-			org.springframework.web.filter.CharacterEncodingFilter
-		</filter-class>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
@@ -55,6 +54,7 @@
 		<filter-name>encoding-filter</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
+	
 	<!--spring security权限过滤-->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -66,12 +66,11 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
+	
 	<!--URL伪静态-->
 	<filter>
 		<filter-name>UrlRewriteFilter</filter-name>
-		<filter-class>
-			org.tuckey.web.filters.urlrewrite.UrlRewriteFilter
-		</filter-class>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
 		<!-- <init-param>
 			<param-name>logLevel</param-name>
 			<param-value>DEBUG</param-value>
@@ -81,23 +80,22 @@
 		<filter-name>UrlRewriteFilter</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
+	
 	<!-- 网页压缩过滤器 -->
 	<filter>
 		<filter-name>GZIPEncoder</filter-name>
-		<filter-class>
-			com.shopping.core.zip.CompressionFilter
-		</filter-class>
+		<filter-class>com.shopping.core.zip.CompressionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>GZIPEncoder</filter-name>
 		<servlet-name>/shopping</servlet-name>
 	</filter-mapping>
+	
 	<!-- SSO过滤器 -->
 	<filter>
 		<filter-name>secondDomainFilter</filter-name>
-		<filter-class>
-			org.springframework.web.filter.DelegatingFilterProxy<!-- DelegatingFilterProxy就是一个对于servlet filter的代理 -->
-		</filter-class>
+		<!-- DelegatingFilterProxy就是一个对于servlet filter的代理 -->
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>
 			<param-name>targetFilterLifecycle</param-name>
 			<param-value>true</param-value>
@@ -107,12 +105,12 @@
 		<filter-name>secondDomainFilter</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
+	
 	<!--商城过滤器-->
 	<filter>
 		<filter-name>shopFilter</filter-name>
-		<filter-class>
-			org.springframework.web.filter.DelegatingFilterProxy<!-- DelegatingFilterProxy就是一个对于servlet filter的代理 -->
-		</filter-class>
+		<!-- DelegatingFilterProxy就是一个对于servlet filter的代理 -->
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>
 			<param-name>targetFilterLifecycle</param-name>
 			<param-value>true</param-value>
@@ -122,6 +120,7 @@
 		<filter-name>shopFilter</filter-name>
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
+	
 	<!--页面缓存配置
 	<filter>
 		<filter-name>SimplePageFragmentCachingFilter</filter-name>
@@ -142,12 +141,11 @@
 		<dispatcher>forward</dispatcher>
 		<dispatcher>include</dispatcher>
 	</filter-mapping>-->
+	
 	<!--系统主控servlet-->
 	<servlet>
 		<servlet-name>shopping</servlet-name>
-		<servlet-class>
-			org.springframework.web.servlet.DispatcherServlet
-		</servlet-class>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 	      	<param-name>contextConfigLocation</param-name>
 	     	<param-value>classpath:**/shopping-servlet.xml</param-value>
@@ -158,22 +156,20 @@
 		<servlet-name>shopping</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
+	
 	<!--图片上传Servlet-->
 	<servlet>
 		<servlet-name>UploadServlet</servlet-name>
-		<servlet-class>
-			com.shopping.servlet.UploadServlet
-		</servlet-class>
+		<servlet-class>com.shopping.servlet.UploadServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>UploadServlet</servlet-name>
 		<url-pattern>/image/upload</url-pattern>
 	</servlet-mapping>
 	<listener>
-		<listener-class>
-			com.shopping.core.loader.ServletContextLoaderListener
-		</listener-class>
+		<listener-class>com.shopping.core.loader.ServletContextLoaderListener</listener-class>
 	</listener>
+	
 	<!-- 
 		<listener>
 		<listener-class>
@@ -186,9 +182,7 @@
 		<param-value>shopping.root</param-value>
 	</context-param>
 	<listener>
-		<listener-class>
-			org.springframework.web.util.WebAppRootListener
-		</listener-class>
+		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
 	</listener>
 	<error-page>
 		<error-code>500</error-code>
@@ -198,6 +192,7 @@
 		<error-code>404</error-code>
 		<location>/404.htm</location>
 	</error-page>
+	
 	<!-- MIME类型 -->
 	<mime-mapping>
 		<extension>doc</extension>
