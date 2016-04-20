@@ -13,6 +13,6 @@
 	<!-- 使Spring关注Annotation  
 		<context:annotation-config />   -->
 	<!--开启AOP自动代理-->
-	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 </beans>
