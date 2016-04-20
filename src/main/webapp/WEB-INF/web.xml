@@ -11,7 +11,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:**/applicationContext-*.xml</param-value>
+		<param-value>classpath:applicationContext-*.xml</param-value>
 	</context-param>
 	
 	<listener>
@@ -74,7 +74,7 @@
 		<!-- <init-param>
 			<param-name>logLevel</param-name>
 			<param-value>DEBUG</param-value>
-			</init-param> -->
+		</init-param> -->
 	</filter>
 	<filter-mapping>
 		<filter-name>UrlRewriteFilter</filter-name>
@@ -121,34 +121,13 @@
 		<url-pattern>*.htm</url-pattern>
 	</filter-mapping>
 	
-	<!--页面缓存配置
-	<filter>
-		<filter-name>SimplePageFragmentCachingFilter</filter-name>
-		<filter-class>
-			com.shopping.core.ehcache.PageCacheFiler
-		</filter-class>
-		<init-param>
-			<param-name>patterns</param-name>
-			<param-value>
-
-			</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>SimplePageFragmentCachingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>request</dispatcher>
-		<dispatcher>forward</dispatcher>
-		<dispatcher>include</dispatcher>
-	</filter-mapping>-->
-	
 	<!--系统主控servlet-->
 	<servlet>
 		<servlet-name>shopping</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 	      	<param-name>contextConfigLocation</param-name>
-	     	<param-value>classpath:**/shopping-servlet.xml</param-value>
+	     	<param-value>classpath:shopping-servlet.xml</param-value>
 	    </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -170,13 +149,6 @@
 		<listener-class>com.shopping.core.loader.ServletContextLoaderListener</listener-class>
 	</listener>
 	
-	<!-- 
-		<listener>
-		<listener-class>
-		org.springframework.security.ui.session.HttpSessionEventPublisher
-		</listener-class>
-		</listener>
-	-->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>shopping.root</param-value>
