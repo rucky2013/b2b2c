@@ -9,13 +9,14 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
-	<context:annotation-config />
 	<aop:aspectj-autoproxy />
+	
 	<!-- 启动组件扫描，排除@Controller组件，该组件由SpringMVC配置文件扫描 -->
 	<context:component-scan base-package="com.shopping">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory"
@@ -24,6 +25,8 @@
 	</bean>
 	<!-- 启用支持Annotation注解方式的事务管理 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- 把标记了@Controller等注解的类转换为bean -->
+	<context:component-scan base-package="com.shopping" />
 
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射
 		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />    -->

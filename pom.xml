@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.dounine</groupId>
-	<artifactId>b2b2c</artifactId>
+	<artifactId>shopping</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1</version>
-	<description>b2b2c</description>
+	<description>shopping</description>
     <url>https://github.com/dounine/b2b2c</url>
     <inceptionYear>2016-04-20</inceptionYear>
 
-	<name>b2b2c</name>
+	<name>shopping</name>
 
 	<properties>
 	  	<argLine>-Dfile.encoding=UTF-8</argLine>
@@ -647,18 +647,6 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/velocity-dep-1.5.jar</systemPath>
 		</dependency>
 
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-			<version>5.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-commons</artifactId>
-			<version>5.1</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -673,32 +661,6 @@
 					<target>${jdk.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
-			</plugin>
-			<!-- 编译插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-			  <groupId>org.zeroturnaround</groupId>
-			  <artifactId>jrebel-maven-plugin</artifactId>
-			  <configuration>
-			  	<packaging>war</packaging>
-			  	<classpath>
-			      <fallback>default</fallback>
-			      <resources>
-			        <resource>
-			          <directory>target/classes</directory>
-			          <includes>
-			            <include>dnn/**</include>
-			            <include>common/**</include>
-			          </includes>
-			        </resource>
-			      </resources>
-			    </classpath>
-			    <addResourcesDirToRebelXml>true</addResourcesDirToRebelXml>
-			    <alwaysGenerate>true</alwaysGenerate>
-			  </configuration>
 			</plugin>
 		</plugins>
 	</build>
