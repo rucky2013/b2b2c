@@ -1,7 +1,13 @@
-package com.shopping.pay.alipay.util.httpClient;
+ package com.shopping.pay.alipay.util.httpClient;
+ 
+ public enum HttpResultType
+ {
+   STRING, 
+ 
+   BYTES;
+ }
 
-public enum HttpResultType {
-	STRING,
 
-	BYTES;
-}
+ 
+ 
+ 

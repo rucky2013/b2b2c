@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.TransArea;
 import org.springframework.stereotype.Repository;
 
 @Repository("transAreaDAO")
-public class TransAreaDAO extends GenericDAO<TransArea> {
+public class TransAreaDAO extends GenericDAO<TransArea>
+{
 }
+

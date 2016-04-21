@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.Message;
 import org.springframework.stereotype.Repository;
 
 @Repository("messageDAO")
-public class MessageDAO extends GenericDAO<Message> {
+public class MessageDAO extends GenericDAO<Message>
+{
 }
+

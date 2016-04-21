@@ -34,72 +34,72 @@ public class Goods extends IdEntity {
 	private static final long serialVersionUID = -4611982955098188929L;
 
 	private String seo_keywords;
-
-	// seo描述
+	
+	//seo描述
 	@Lob
 	@Column(columnDefinition = "LongText")
 	private String seo_description;
-	// 货物名称
+	//货物名称
 	private String goods_name;
 
-	// 货物价格
+	//货物价格
 	@Column(precision = 12, scale = 2)
 	private BigDecimal goods_price;
 
-	// 商店价格
+	//商店价格
 	@Column(precision = 12, scale = 2)
 	private BigDecimal store_price;
-	// 存货清单
+	//存货清单
 	private int goods_inventory;
-	// 存货类型
+	//存货类型
 	private String inventory_type;
 	private int goods_salenum;
 	private String goods_serial;
-
-	// 货物重量
+	
+	//货物重量
 	@Column(precision = 12, scale = 2)
 	private BigDecimal goods_weight;
-
-	// 货物量
+	
+	//货物量
 	@Column(precision = 12, scale = 2)
 	private BigDecimal goods_volume;
-	// 货物小费
+	//货物小费
 	private String goods_fee;
 
-	// 货物细节
+	//货物细节
 	@Lob
 	@Column(columnDefinition = "LongText")
 	private String goods_details;
-	// 是否为推荐店铺
+	//是否为推荐店铺
 	private boolean store_recommend;
-	// 推荐店铺时间
+	//推荐店铺时间
 	private Date store_recommend_time;
-	// 是否为推荐货物
+	//是否为推荐货物
 	private boolean goods_recommend;
-	// 货物点击量
+	//货物点击量
 	private int goods_click;
-
-	// 货物收藏量
+	
+	//货物收藏量
 	@Column(columnDefinition = "int default 0")
 	private int goods_collect;
-
-	// 货物商店
+	
+	//货物商店
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Store goods_store;
-	// 货物状态
+	//货物状态
 	private int goods_status;
 	private Date goods_seller_time;
 	private int goods_transfee;
-
-	// 货物类型
+	
+	//货物类型
 	@ManyToOne(fetch = FetchType.LAZY)
 	private GoodsClass gc;
 
-	// 货物主照片
+	//货物主照片
 	@ManyToOne(cascade = { javax.persistence.CascadeType.REMOVE })
 	private Accessory goods_main_photo;
-
-	// 货物照片
+	
+	//货物照片
 	@ManyToMany
 	@JoinTable(name = "shopping_goods_photo", joinColumns = {
 			@javax.persistence.JoinColumn(name = "goods_id") }, inverseJoinColumns = {

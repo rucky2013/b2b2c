@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.jdom.JDOMException;
@@ -39,7 +42,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
 import com.shopping.core.annotation.SecurityMapping;
 import com.shopping.core.domain.virtual.SysMap;
 import com.shopping.core.mv.JModelAndView;
@@ -91,8 +93,6 @@ import com.shopping.pay.alipay.config.AlipayConfig;
 import com.shopping.pay.alipay.util.AlipaySubmit;
 import com.shopping.pay.tools.PayTools;
 import com.shopping.view.web.tools.GoodsViewTools;
-
-import net.sf.json.JSONObject;
 
 @Controller
 public class CartViewAction {
@@ -283,8 +283,7 @@ public class CartViewAction {
 			if (CommUtil.null2String(gc.getCart_type()).equals("combin"))
 				total_price = CommUtil.null2Float(goods.getCombin_price());
 			else {
-				total_price = CommUtil.null2Float(
-						Double.valueOf(CommUtil.mul(Integer.valueOf(gc.getCount()), gc.getPrice()))) + total_price;
+				total_price = CommUtil.null2Float(Double.valueOf(CommUtil.mul(Integer.valueOf(gc.getCount()), gc.getPrice()))) + total_price;
 			}
 		}
 		mv.addObject("total_price", Float.valueOf(total_price));
@@ -294,7 +293,6 @@ public class CartViewAction {
 
 	/**
 	 * 添加购物车
-	 * 
 	 * @param request
 	 * @param response
 	 * @param id
@@ -422,8 +420,7 @@ public class CartViewAction {
 				if ((gsp_ids != null) && (gsp_ids.length > 0) && (gc.getGsps() != null) && (gc.getGsps().size() > 0)) {
 					gsp_ids1 = new String[gc.getGsps().size()];
 					for (int i = 0; i < gc.getGsps().size(); i++) {
-						gsp_ids1[i] = (gc.getGsps().get(i) != null
-								? ((GoodsSpecProperty) gc.getGsps().get(i)).getId().toString() : "");
+						gsp_ids1[i] = (gc.getGsps().get(i) != null ? ((GoodsSpecProperty) gc.getGsps().get(i)).getId().toString() : "");
 					}
 					Arrays.sort(gsp_ids1);
 					if ((!gc.getGoods().getId().toString().equals(id)) || (!Arrays.equals(gsp_ids, gsp_ids1)))
@@ -478,17 +475,13 @@ public class CartViewAction {
 			((GoodsCart) obj).setSpec_info(spec_info);
 			this.goodsCartService.save((GoodsCart) obj);
 			sc33.getGcs().add((GoodsCart) obj);
-
+			
 			double cart_total_price = 0.0D;
 
 			for (GoodsCart gc1 : sc33.getGcs()) {
 				// GoodsCart gc1 = (GoodsCart)((Iterator)???).next();
 				if (CommUtil.null2String(gc1.getCart_type()).equals("")) {
-					/*
-					 * cart_total_price = cart_total_price +
-					 * CommUtil.null2Double(gc1.getGoods().
-					 * getGoods_current_price()) * gc1.getCount();
-					 */
+					/*cart_total_price = cart_total_price + CommUtil.null2Double(gc1.getGoods().getGoods_current_price()) * gc1.getCount();*/
 					cart_total_price = cart_total_price + CommUtil.null2Double(gc1.getPrice()) * gc1.getCount();
 				}
 				if (!CommUtil.null2String(gc1.getCart_type()).equals("combin"))
@@ -546,7 +539,6 @@ public class CartViewAction {
 
 	/**
 	 * 从购物车删除商品
-	 * 
 	 * @param request
 	 * @param response
 	 * @param id
@@ -581,7 +573,7 @@ public class CartViewAction {
 			this.storeCartService.update(sc2);
 		}
 		request.getSession(false).setAttribute("cart", cart);
-		Map<String,Object> map = new HashMap<>();
+		Map map = new HashMap();
 		map.put("count", Double.valueOf(count));
 		map.put("total_price", Double.valueOf(total_price));
 		map.put("sc_total_price", Double.valueOf(sc_total_price));
@@ -590,7 +582,7 @@ public class CartViewAction {
 		response.setCharacterEncoding("UTF-8");
 		try {
 			PrintWriter writer = response.getWriter();
-			writer.print(JSON.toJSONString(map));
+			writer.print(Json.toJson(map, JsonFormat.compact()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -708,7 +700,7 @@ public class CartViewAction {
 		try {
 			PrintWriter writer = response.getWriter();
 
-			writer.print(JSON.toJSONString(map));
+			writer.print(Json.toJson(map, JsonFormat.compact()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -716,7 +708,6 @@ public class CartViewAction {
 
 	/**
 	 * 查看购物车
-	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -726,8 +717,8 @@ public class CartViewAction {
 	public ModelAndView goods_cart1(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new JModelAndView("goods_cart1.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 			mv = new JModelAndView("wap/goods_cart1.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
 		}
@@ -753,8 +744,7 @@ public class CartViewAction {
 		} else {
 			mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
-			if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-					&& (shopping_view_type.equals("wap"))) {
+			if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 				mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
 			}
@@ -769,8 +759,7 @@ public class CartViewAction {
 			ztc_map.put("now_date", new Date());
 			ztc_map.put("ztc_gold", Integer.valueOf(0));
 			List goods = this.goodsService.query(
-					"select obj from Goods obj where obj.ztc_status =:ztc_status and obj.ztc_begin_time <=:now_date and obj.ztc_gold>:ztc_gold order by obj.ztc_dredge_price desc",
-					ztc_map, -1, -1);
+					"select obj from Goods obj where obj.ztc_status =:ztc_status and obj.ztc_begin_time <=:now_date and obj.ztc_gold>:ztc_gold order by obj.ztc_dredge_price desc", ztc_map, -1, -1);
 
 			ztc_goods = randomZtcGoods(goods);
 			mv.addObject("ztc_goods", ztc_goods);
@@ -802,8 +791,8 @@ public class CartViewAction {
 	public ModelAndView goods_cart2(HttpServletRequest request, HttpServletResponse response, String store_id) {
 		ModelAndView mv = new JModelAndView("goods_cart2.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 			mv = new JModelAndView("wap/goods_cart2.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
 		}
@@ -856,8 +845,7 @@ public class CartViewAction {
 		} else {
 			mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
-			if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-					&& (shopping_view_type.equals("wap"))) {
+			if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 				mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
 			}
@@ -873,8 +861,8 @@ public class CartViewAction {
 			String store_id, String addr_id, String coupon_id) throws Exception {
 		ModelAndView mv = new JModelAndView("goods_cart3.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 			mv = new JModelAndView("wap/goods_cart3.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
 		}
@@ -899,8 +887,7 @@ public class CartViewAction {
 					ci.setStatus(1);
 					this.couponInfoService.update(ci);
 					of.setCi(ci);
-					of.setTotalPrice(BigDecimal
-							.valueOf(CommUtil.subtract(of.getTotalPrice(), ci.getCoupon().getCoupon_amount())));
+					of.setTotalPrice(BigDecimal.valueOf(CommUtil.subtract(of.getTotalPrice(), ci.getCoupon().getCoupon_amount())));
 				}
 				of.setOrder_type("web");
 				this.orderFormService.save(of);
@@ -921,7 +908,7 @@ public class CartViewAction {
 				}
 				Cookie[] cookies = request.getCookies();
 				if (cookies != null) {
-
+					
 					for (int i = 0; i < cookies.length; i++) {
 						Cookie cookie = cookies[i];
 						if (cookie.getName().equals("cart_session_id")) {
@@ -948,8 +935,7 @@ public class CartViewAction {
 			} else {
 				mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
-				if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-						&& (shopping_view_type.equals("wap"))) {
+				if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 					mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 							this.userConfigService.getUserConfig(), 1, request, response);
 				}
@@ -959,8 +945,7 @@ public class CartViewAction {
 		} else {
 			mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
-			if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-					&& (shopping_view_type.equals("wap"))) {
+			if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 				mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
 			}
@@ -973,12 +958,12 @@ public class CartViewAction {
 	@SecurityMapping(display = false, rsequence = 0, title = "订单支付详情", value = "/order_pay_view.htm*", rtype = "buyer", rname = "购物流程3", rcode = "goods_cart", rgroup = "在线购物")
 	@RequestMapping({ "/order_pay_view.htm" })
 	public ModelAndView order_pay_view(HttpServletRequest request, HttpServletResponse response, String id) {
-
+		
 		ModelAndView mv = new JModelAndView("order_pay.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
+		
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 			mv = new JModelAndView("wap/order_pay.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
 		}
@@ -995,8 +980,7 @@ public class CartViewAction {
 		} else {
 			mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
-			if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-					&& (shopping_view_type.equals("wap"))) {
+			if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 				mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
 			}
@@ -1008,17 +992,15 @@ public class CartViewAction {
 
 	@SecurityMapping(display = false, rsequence = 0, title = "订单支付", value = "/order_pay.htm*", rtype = "buyer", rname = "购物流程3", rcode = "goods_cart", rgroup = "在线购物")
 	@RequestMapping({ "/order_pay.htm" })
-	public ModelAndView order_pay(HttpServletRequest request, HttpServletResponse response, String payType,
-			String order_id) {
+	public ModelAndView order_pay(HttpServletRequest request, HttpServletResponse response, String payType, String order_id) {
 		ModelAndView mv = null;
 		OrderForm of = this.orderFormService.getObjById(CommUtil.null2Long(order_id));
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
 		if (of.getOrder_status() == 10) {
 			if (CommUtil.null2String(payType).equals("")) {
 				mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
-				if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-						&& (shopping_view_type.equals("wap"))) {
+				if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 					mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 							this.userConfigService.getUserConfig(), 1, request, response);
 				}
@@ -1027,7 +1009,7 @@ public class CartViewAction {
 			} else {
 				List payments = new ArrayList();
 				Map params = new HashMap();
-				// 判断是否平台支付
+				//判断是否平台支付
 				if (this.configService.getSysConfig().getConfig_payment_type() == 1) {
 					params.put("mark", payType);
 					params.put("type", "admin");
@@ -1037,8 +1019,7 @@ public class CartViewAction {
 					params.put("mark", payType);
 					params.put("store_id", of.getStore().getId());
 					payments = this.paymentService.query(
-							"select obj from Payment obj where obj.mark=:mark and obj.store.id=:store_id", params, -1,
-							-1);
+							"select obj from Payment obj where obj.mark=:mark and obj.store.id=:store_id", params, -1, -1);
 				}
 				of.setPayment((Payment) payments.get(0));
 				this.orderFormService.update(of);
@@ -1077,8 +1058,7 @@ public class CartViewAction {
 		} else {
 			mv = new JModelAndView("error.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
-			if ((shopping_view_type != null) && (!shopping_view_type.equals(""))
-					&& (shopping_view_type.equals("wap"))) {
+			if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 				mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(),
 						this.userConfigService.getUserConfig(), 1, request, response);
 			}
@@ -1087,14 +1067,13 @@ public class CartViewAction {
 		}
 		return mv;
 	}
-
 	/**
 	 * wap支付提交
 	 */
 	@SecurityMapping(display = false, rsequence = 0, title = "wap订单支付", value = "/wxwap_submit.htm*", rtype = "buyer", rname = "购物流程3", rcode = "goods_cart", rgroup = "在线购物")
 	@RequestMapping({ "/pay_submit.htm" })
-	public String paymentSubmit(HttpServletRequest request, HttpServletResponse response, String payType,
-			String order_id) {
+	public String paymentSubmit(HttpServletRequest request,
+			HttpServletResponse response, String payType, String order_id) {
 
 		OrderForm of = this.orderFormService.getObjById(CommUtil.null2Long(order_id));
 
@@ -1106,13 +1085,11 @@ public class CartViewAction {
 			if (this.configService.getSysConfig().getConfig_payment_type() == 1) {
 				params.put("mark", payType);
 				params.put("type", "admin");
-				payments = this.paymentService
-						.query("select obj from Payment obj where obj.mark=:mark and obj.type=:type", params, -1, -1);
+				payments = this.paymentService.query("select obj from Payment obj where obj.mark=:mark and obj.type=:type", params, -1, -1);
 			} else {
 				params.put("store_id", of.getStore().getId());
 				params.put("mark", payType);
-				payments = this.paymentService.query(
-						"select obj from Payment obj where obj.mark=:mark and obj.store.id=:store_id", params, -1, -1);
+				payments = this.paymentService.query("select obj from Payment obj where obj.mark=:mark and obj.store.id=:store_id", params, -1, -1);
 			}
 			// 支付方式已经配置:wap支持支付宝wap支付以及微信公众号支付
 			if (payments.size() > 0) {
@@ -1127,8 +1104,12 @@ public class CartViewAction {
 					String siteURL = CommUtil.getURL(request);
 					String out_trade_no = of.getId().toString();
 
-					return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID
-							+ "&redirect_uri=" + siteURL + "/wechat/oauthCode.htm?sn=" + out_trade_no
+					return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+							+ APPID
+							+ "&redirect_uri="
+							+ siteURL
+							+ "/wechat/oauthCode.htm?sn="
+							+ out_trade_no
 							+ "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
 
 				} else if (payType.equals("alipay_wap")) {
@@ -1137,10 +1118,10 @@ public class CartViewAction {
 					String siteURL = CommUtil.getURL(request);
 					AlipayConfig config = new AlipayConfig();
 
-					config.setSeller_email(of.getPayment().getSeller_email());
-					config.setKey(of.getPayment().getSafeKey());
-					config.setPartner(of.getPayment().getPartner());
-					config.setSign_type("RSA");
+			        config.setSeller_email(of.getPayment().getSeller_email());
+			        config.setKey(of.getPayment().getSafeKey());
+			        config.setPartner(of.getPayment().getPartner());
+			        config.setSign_type("RSA");
 					// 把请求参数打包成数组
 					Map<String, String> sParaTemp = new HashMap<String, String>();
 					// 调用的接口名，无需修改
@@ -1152,20 +1133,20 @@ public class CartViewAction {
 					sParaTemp.put("_input_charset", config.getInput_charset());
 					// 支付类型 ，无需修改
 					sParaTemp.put("payment_type", "1");
-
+					
 					sParaTemp.put("notify_url", siteURL + "/alipay/alipay_notify.htm");
 					sParaTemp.put("return_url", siteURL + "/alipay/alipay_retrun.htm");
 					sParaTemp.put("out_trade_no", of.getId().toString());
 					sParaTemp.put("subject", "订单号为" + of.getOrder_id());
 					// 价格测试改为1分钱
-					// sParaTemp.put("total_fee", "0.01");
+					//sParaTemp.put("total_fee", "0.01");
 					sParaTemp.put("total_fee", of.getTotalPrice().toPlainString());
 					sParaTemp.put("show_url", "/index.htm");
 					sParaTemp.put("body", "支付宝wap支付");
 					// 其他业务参数根据在线开发文档，添加参数.文档地址:https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2Z6TSk&treeId=60&articleId=103693&docType=1
-
+			        
 					String sHtmlText = AlipaySubmit.buildRequestWap(config, sParaTemp, "get", "确定");
-
+					
 					try {
 						response.setCharacterEncoding("UTF-8");
 						response.setContentType("text/html");
@@ -1186,250 +1167,243 @@ public class CartViewAction {
 
 		} else {
 			// 该订单状态不正确，不能进行付款！
-			return "redirect:" + CommUtil.getURL(request) + "/index.htm?orderError";
+			return "redirect:"
+					+ CommUtil.getURL(request)
+					+ "/index.htm?orderError";
 		}
 		return null;
 	}
-
+	
 	/**
-	 * 微信CODE回调JSP并进行微信授权接口认证获取用户openid
-	 */
-	@RequestMapping({ "/wechat/oauthCode.htm" })
-	public ModelAndView oauthCode(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("支付收到微信code回调请求");
-		ModelAndView mv = new JModelAndView("wxpay.html", this.configService.getSysConfig(),
+     * 微信CODE回调JSP并进行微信授权接口认证获取用户openid
+     */
+    @RequestMapping({"/wechat/oauthCode.htm"})
+    public ModelAndView oauthCode(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("支付收到微信code回调请求");
+        ModelAndView mv = new JModelAndView("wxpay.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-		// 用户同意授权后，能获取到code
-		String code = request.getParameter("code");
-		String sn = request.getParameter("sn");
-		HttpSession session = request.getSession();
-		String scode = (String) session.getAttribute("wxcode");
+        // 用户同意授权后，能获取到code
+        String code = request.getParameter("code");
+        String sn = request.getParameter("sn");
+        HttpSession session = request.getSession();
+        String scode = (String)session.getAttribute("wxcode");
+        
+        if(code!=null&&code.equalsIgnoreCase(scode)) {
+            
+        } else {
+            session.setAttribute("wxcode",code);
+        }
+        String openId = null;
+        // 用户同意授权
+        if (null != code && !"".equals(code) && !"authdeny".equals(code)) {
+        	
+        	OrderForm of = this.orderFormService.getObjById(CommUtil.null2Long(sn));
+        	
+            // 获取网页授权access_token
+            WxOauth2Token wxOauth2Token = WxAdvancedUtil.getOauth2AccessToken(of.getPayment().getWeixin_appId(), of.getPayment().getWeixin_appSecret(), code);
+            // 用户标识
+            if(null!=wxOauth2Token){
+                openId = wxOauth2Token.getOpenId();
+            }
+            logger.info("微信code回调请求:openId={},sn={}",openId,sn);
+            
+            String prodName = "网上购物";
+            String amount = of.getTotalPrice().toString();
+            
+            mv.addObject("openId", openId);
+            mv.addObject("sn", sn);
+            mv.addObject("amount", amount);
+            mv.addObject("siteName", this.configService.getSysConfig().getWebsiteName());
+            mv.addObject("productName", prodName);
+            
+        } else {
+        	mv = new JModelAndView("error.html", this.configService.getSysConfig(),
+    				this.userConfigService.getUserConfig(), 1, request, response);
+    		mv.addObject("op_title", "用户未授权！");
+    		mv.addObject("url", CommUtil.getURL(request) + "/index.htm?authdeny");
+        }
+        return mv;
+    }
+    
+    /**
+     * 生成微信订单数据以及微信支付需要的签名等信息，传输到前端，发起调用JSAPI支付
+     * 作者: YUKE 日期：2016年1月14日 上午10:39:49
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping({"/wechat/wxpay.htm"})
+    public void wxpay(HttpServletRequest request, HttpServletResponse response, String openId,String sn,String productName,String totalPrice,String clientUrl) throws Exception {
+        
+        String APPID = null;
+        String APP_SECRET = null;
+        String MCH_ID = null;
+        String API_KEY = null;
+        String siteURL = CommUtil.getURL(request);
+        String UNI_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
-		if (code != null && code.equalsIgnoreCase(scode)) {
+        logger.info("微信确认支付获取openId={},sn={}"+openId,sn);
 
-		} else {
-			session.setAttribute("wxcode", code);
-		}
-		String openId = null;
-		// 用户同意授权
-		if (null != code && !"".equals(code) && !"authdeny".equals(code)) {
+        OrderForm of = null;
+        String amount = null;
+        try {
+        	of = this.orderFormService.getObjById(CommUtil.null2Long(sn));
+        } catch (Exception e) {
+            logger.error("微信确认支付查询paymentLog异常="+e.getMessage());
+            e.printStackTrace();
+        }
+        if(of==null){
+            amount = "";
+            logger.info("微信确认支付查询orderForm=null");
+        }
+        else {
+        	APPID = of.getPayment().getWeixin_appId();
+            APP_SECRET = of.getPayment().getWeixin_appSecret();
+            MCH_ID = of.getPayment().getWeixin_partnerId();
+            API_KEY = of.getPayment().getWeixin_paySignKey();
+        	
+            /** 将元转换为分 */
+            amount = of.getTotalPrice().multiply(new BigDecimal(100)).setScale(0).toString();
+            logger.info("微信确认支付元转分成功amount={}",amount);
+        }
 
-			OrderForm of = this.orderFormService.getObjById(CommUtil.null2Long(sn));
+        SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
+        parameters.put("appid", APPID);
+        parameters.put("mch_id", MCH_ID);
+        parameters.put("nonce_str", WxCommonUtil.createNoncestr());
+        parameters.put("body", productName);// 商品名称
 
-			// 获取网页授权access_token
-			WxOauth2Token wxOauth2Token = WxAdvancedUtil.getOauth2AccessToken(of.getPayment().getWeixin_appId(),
-					of.getPayment().getWeixin_appSecret(), code);
-			// 用户标识
-			if (null != wxOauth2Token) {
-				openId = wxOauth2Token.getOpenId();
-			}
-			logger.info("微信code回调请求:openId={},sn={}", openId, sn);
+        /** 订单号 */
+        parameters.put("out_trade_no", sn);
+        /** 订单金额以分为单位，只能为整数 */
+        //parameters.put("total_fee", "1");//测试用的金额1分钱
+        parameters.put("total_fee", amount);
+        /** 客户端本地ip */
+        parameters.put("spbill_create_ip", request.getRemoteAddr());
+        /** 支付回调地址 */
+        parameters.put("notify_url", siteURL + "/wechat/paynotify.htm");
+        /** 支付方式为JSAPI支付 */
+        parameters.put("trade_type", "JSAPI");
+        /** 用户微信的openid，当trade_type为JSAPI的时候，该属性字段必须设置 */
+        parameters.put("openid", openId);
 
-			String prodName = "网上购物";
-			String amount = of.getTotalPrice().toString();
+        /** 使用MD5进行签名，编码必须为UTF-8 */
+        String sign = WxCommonUtil.createSignMD5("UTF-8", parameters, API_KEY);
 
-			mv.addObject("openId", openId);
-			mv.addObject("sn", sn);
-			mv.addObject("amount", amount);
-			mv.addObject("siteName", this.configService.getSysConfig().getWebsiteName());
-			mv.addObject("productName", prodName);
+        /**将签名结果加入到map中，用于生成xml格式的字符串*/
+        parameters.put("sign", sign);
 
-		} else {
-			mv = new JModelAndView("error.html", this.configService.getSysConfig(),
-					this.userConfigService.getUserConfig(), 1, request, response);
-			mv.addObject("op_title", "用户未授权！");
-			mv.addObject("url", CommUtil.getURL(request) + "/index.htm?authdeny");
-		}
-		return mv;
-	}
+        /** 生成xml结构的数据，用于统一下单请求的xml请求数据 */
+        String requestXML = WxCommonUtil.getRequestXml(parameters);
+        logger.info("请求统一支付requestXML：" + requestXML);
 
-	/**
-	 * 生成微信订单数据以及微信支付需要的签名等信息，传输到前端，发起调用JSAPI支付 作者: YUKE 日期：2016年1月14日
-	 * 上午10:39:49
-	 *
-	 * @param
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping({ "/wechat/wxpay.htm" })
-	public void wxpay(HttpServletRequest request, HttpServletResponse response, String openId, String sn,
-			String productName, String totalPrice, String clientUrl) throws Exception {
+        try {
+            /** 1、使用POST请求统一下单接口，获取预支付单号prepay_id */
+            String result = WxCommonUtil.httpsRequestString(UNI_URL, "POST", requestXML);
+            logger.info("请求统一支付result:" + result);
+            //解析微信返回的信息，以Map形式存储便于取值
+            Map<String, String> map = WxCommonUtil.doXMLParse(result);
+            logger.info("预支付单号prepay_id为:" + map.get("prepay_id"));
+            //全局map，该map存放前端ajax请求的返回值信息，包括wx.config中的配置参数值，也包括wx.chooseWXPay中的配置参数值
+            SortedMap<Object, Object> params = new TreeMap<Object, Object>();
+            params.put("appId", APPID);
+            params.put("timeStamp", new Date().getTime()+""); //时间戳
+            params.put("nonceStr", WxCommonUtil.createNoncestr()); //随机字符串
+            params.put("package", "prepay_id=" + map.get("prepay_id")); //格式必须为 prepay_id=***
+            params.put("signType", "MD5"); //签名的方式必须是MD5
+            /**
+             * 获取预支付prepay_id后，需要再次签名，此次签名是用于前端js中的wx.chooseWXPay中的paySign。
+             * 参与签名的参数有5个，分别是：appId、timeStamp、nonceStr、package、signType 注意参数名称的大小写
+             */
+            String paySign = WxCommonUtil.createSignMD5("UTF-8", params, API_KEY);
+            //预支付单号
+            params.put("packageValue", "prepay_id=" + map.get("prepay_id"));
+            params.put("paySign", paySign); //支付签名
+            //付款成功后同步请求的URL，请求我们自定义的支付成功的页面，展示给用户
+            params.put("sendUrl", siteURL+"/wechat/paysuccess.htm?totalPrice="+totalPrice);
 
-		String APPID = null;
-		String APP_SECRET = null;
-		String MCH_ID = null;
-		String API_KEY = null;
-		String siteURL = CommUtil.getURL(request);
-		String UNI_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            //获取用户的微信客户端版本号，用于前端支付之前进行版本判断，微信版本低于5.0无法使用微信支付
+            String userAgent = request.getHeader("user-agent");
+            char agent = userAgent.charAt(userAgent.indexOf("MicroMessenger") + 15);
+            params.put("agent", new String(new char[] { agent }));
 
-		logger.info("微信确认支付获取openId={},sn={}" + openId, sn);
+            /**2、获取access_token作为参数传递,由于access_token有有效期限制，和调用次数限制，可以缓存到session或者数据库中.有效期设置为小于7200秒*/
+            WxToken wxtoken = WxCommonUtil.getToken(APPID, APP_SECRET);
+            String token = wxtoken.getAccessToken();
+            logger.info("获取的token值为:" + token);
 
-		OrderForm of = null;
-		String amount = null;
-		try {
-			of = this.orderFormService.getObjById(CommUtil.null2Long(sn));
-		} catch (Exception e) {
-			logger.error("微信确认支付查询paymentLog异常=" + e.getMessage());
-			e.printStackTrace();
-		}
-		if (of == null) {
-			amount = "";
-			logger.info("微信确认支付查询orderForm=null");
-		} else {
-			APPID = of.getPayment().getWeixin_appId();
-			APP_SECRET = of.getPayment().getWeixin_appSecret();
-			MCH_ID = of.getPayment().getWeixin_partnerId();
-			API_KEY = of.getPayment().getWeixin_paySignKey();
+            /**3、获取凭证ticket发起GET请求 */
+            String requestUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" + token;
+            logger.info("接口调用凭证ticket的requestUrl：" + requestUrl);
 
-			/** 将元转换为分 */
-			amount = of.getTotalPrice().multiply(new BigDecimal(100)).setScale(0).toString();
-			logger.info("微信确认支付元转分成功amount={}", amount);
-		}
-
-		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-		parameters.put("appid", APPID);
-		parameters.put("mch_id", MCH_ID);
-		parameters.put("nonce_str", WxCommonUtil.createNoncestr());
-		parameters.put("body", productName);// 商品名称
-
-		/** 订单号 */
-		parameters.put("out_trade_no", sn);
-		/** 订单金额以分为单位，只能为整数 */
-		// parameters.put("total_fee", "1");//测试用的金额1分钱
-		parameters.put("total_fee", amount);
-		/** 客户端本地ip */
-		parameters.put("spbill_create_ip", request.getRemoteAddr());
-		/** 支付回调地址 */
-		parameters.put("notify_url", siteURL + "/wechat/paynotify.htm");
-		/** 支付方式为JSAPI支付 */
-		parameters.put("trade_type", "JSAPI");
-		/** 用户微信的openid，当trade_type为JSAPI的时候，该属性字段必须设置 */
-		parameters.put("openid", openId);
-
-		/** 使用MD5进行签名，编码必须为UTF-8 */
-		String sign = WxCommonUtil.createSignMD5("UTF-8", parameters, API_KEY);
-
-		/** 将签名结果加入到map中，用于生成xml格式的字符串 */
-		parameters.put("sign", sign);
-
-		/** 生成xml结构的数据，用于统一下单请求的xml请求数据 */
-		String requestXML = WxCommonUtil.getRequestXml(parameters);
-		logger.info("请求统一支付requestXML：" + requestXML);
-
-		try {
-			/** 1、使用POST请求统一下单接口，获取预支付单号prepay_id */
-			String result = WxCommonUtil.httpsRequestString(UNI_URL, "POST", requestXML);
-			logger.info("请求统一支付result:" + result);
-			// 解析微信返回的信息，以Map形式存储便于取值
-			Map<String, String> map = WxCommonUtil.doXMLParse(result);
-			logger.info("预支付单号prepay_id为:" + map.get("prepay_id"));
-			// 全局map，该map存放前端ajax请求的返回值信息，包括wx.config中的配置参数值，也包括wx.chooseWXPay中的配置参数值
-			SortedMap<Object, Object> params = new TreeMap<Object, Object>();
-			params.put("appId", APPID);
-			params.put("timeStamp", new Date().getTime() + ""); // 时间戳
-			params.put("nonceStr", WxCommonUtil.createNoncestr()); // 随机字符串
-			params.put("package", "prepay_id=" + map.get("prepay_id")); // 格式必须为
-																		// prepay_id=***
-			params.put("signType", "MD5"); // 签名的方式必须是MD5
-			/**
-			 * 获取预支付prepay_id后，需要再次签名，此次签名是用于前端js中的wx.chooseWXPay中的paySign。
-			 * 参与签名的参数有5个，分别是：appId、timeStamp、nonceStr、package、signType
-			 * 注意参数名称的大小写
-			 */
-			String paySign = WxCommonUtil.createSignMD5("UTF-8", params, API_KEY);
-			// 预支付单号
-			params.put("packageValue", "prepay_id=" + map.get("prepay_id"));
-			params.put("paySign", paySign); // 支付签名
-			// 付款成功后同步请求的URL，请求我们自定义的支付成功的页面，展示给用户
-			params.put("sendUrl", siteURL + "/wechat/paysuccess.htm?totalPrice=" + totalPrice);
-
-			// 获取用户的微信客户端版本号，用于前端支付之前进行版本判断，微信版本低于5.0无法使用微信支付
-			String userAgent = request.getHeader("user-agent");
-			char agent = userAgent.charAt(userAgent.indexOf("MicroMessenger") + 15);
-			params.put("agent", new String(new char[] { agent }));
-
-			/**
-			 * 2、获取access_token作为参数传递,由于access_token有有效期限制，和调用次数限制，
-			 * 可以缓存到session或者数据库中.有效期设置为小于7200秒
-			 */
-			WxToken wxtoken = WxCommonUtil.getToken(APPID, APP_SECRET);
-			String token = wxtoken.getAccessToken();
-			logger.info("获取的token值为:" + token);
-
-			/** 3、获取凭证ticket发起GET请求 */
-			String requestUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=" + token;
-			logger.info("接口调用凭证ticket的requestUrl：" + requestUrl);
-
-			String ticktresult = WxCommonUtil.httpsRequestString(requestUrl, "GET", null);
-			JSONObject jsonresult = JSONObject.fromObject(ticktresult);
-			// JSONObject jsonObject = WxCommonUtil.httpsRequest(requestUrl,
-			// "GET", null);
-			// 使用JSSDK支付，需要另一个凭证，也就是jsapi_ticket。这个是JSSDK中使用到的。
-			String jsapi_ticket = jsonresult.getString("ticket");
-			logger.info("jsapi_ticket：" + jsapi_ticket);
-			// 获取到ticket凭证之后，需要进行一次签名
-			String config_nonceStr = WxCommonUtil.createNoncestr();// 获取随机字符串
-			long config_timestamp = new Date().getTime();// 时间戳
-			// 加入签名的参数有4个，分别是： noncestr、jsapi_ticket、timestamp、url，注意字母全部为小写
-			SortedMap<Object, Object> configMap = new TreeMap<Object, Object>();
-			configMap.put("noncestr", config_nonceStr);
-			configMap.put("jsapi_ticket", jsapi_ticket);
-			configMap.put("timestamp", config_timestamp + "");
-			configMap.put("url", clientUrl);
-			// 该签名是用于前端js中wx.config配置中的signature值。
-			String config_sign = WxCommonUtil.createSignSHA1("UTF-8", configMap);
-			// 将config_nonceStr、jsapi_ticket
-			// 、config_timestamp、config_sign一同传递到前端
-			// 这几个参数名称和上面获取预支付prepay_id使用的参数名称是不一样的，不要混淆了。
-			// 这几个参数是提供给前端js代码在调用wx.config中进行配置的参数，wx.config里面的signature值就是这个config_sign的值，以此类推
-			params.put("config_nonceStr", config_nonceStr);
-			params.put("config_timestamp", config_timestamp + "");
-			params.put("config_sign", config_sign);
-			// 将map转换为json字符串，传递给前端ajax回调
-			String json = JSON.toJSONString(params);
-			logger.info("用于wx.config配置的json：" + json);
-
-			response.setContentType("text/plain");
-			response.setHeader("Cache-Control", "no-cache");
-			response.setCharacterEncoding("UTF-8");
-
-			try {
-				PrintWriter writer = response.getWriter();
-				writer.print(json);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 微信扫码支付
-	 * 
-	 * @param request
-	 * @param response
-	 * @param order_id
-	 * @return
-	 */
-	@RequestMapping({ "/wechat/wxcodepay.htm" })
-	public void wxcodepay(HttpServletRequest request, HttpServletResponse response, String order_id) {
-
-		String UNI_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-		OrderForm of = this.orderFormService.getObjById(CommUtil.null2Long(order_id));
+            String ticktresult = WxCommonUtil.httpsRequestString(requestUrl, "GET", null);
+            JSONObject jsonresult = JSONObject.fromObject(ticktresult);
+            //JSONObject jsonObject = WxCommonUtil.httpsRequest(requestUrl, "GET", null);
+            //使用JSSDK支付，需要另一个凭证，也就是jsapi_ticket。这个是JSSDK中使用到的。
+            String jsapi_ticket = jsonresult.getString("ticket");
+            logger.info("jsapi_ticket：" + jsapi_ticket);
+            // 获取到ticket凭证之后，需要进行一次签名
+            String config_nonceStr = WxCommonUtil.createNoncestr();// 获取随机字符串
+            long config_timestamp = new Date().getTime();// 时间戳
+            // 加入签名的参数有4个，分别是： noncestr、jsapi_ticket、timestamp、url，注意字母全部为小写
+            SortedMap<Object, Object> configMap = new TreeMap<Object, Object>();
+            configMap.put("noncestr", config_nonceStr);
+            configMap.put("jsapi_ticket", jsapi_ticket);
+            configMap.put("timestamp", config_timestamp+"");
+            configMap.put("url", clientUrl);
+            //该签名是用于前端js中wx.config配置中的signature值。
+            String config_sign = WxCommonUtil.createSignSHA1("UTF-8", configMap);
+            // 将config_nonceStr、jsapi_ticket 、config_timestamp、config_sign一同传递到前端
+            // 这几个参数名称和上面获取预支付prepay_id使用的参数名称是不一样的，不要混淆了。
+            // 这几个参数是提供给前端js代码在调用wx.config中进行配置的参数，wx.config里面的signature值就是这个config_sign的值，以此类推
+            params.put("config_nonceStr", config_nonceStr);
+            params.put("config_timestamp", config_timestamp+"");
+            params.put("config_sign", config_sign);
+            // 将map转换为json字符串，传递给前端ajax回调
+            String json = JSONArray.fromObject(params).toString();
+            logger.info("用于wx.config配置的json：" + json);
+            
+            response.setContentType("text/plain");
+    		response.setHeader("Cache-Control", "no-cache");
+    		response.setCharacterEncoding("UTF-8");
+    		
+    		try {
+    			PrintWriter writer = response.getWriter();
+    			writer.print(json);
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 微信扫码支付
+     * @param request
+     * @param response
+     * @param order_id
+     * @return
+     */
+    @RequestMapping({"/wechat/wxcodepay.htm"})
+    public void wxcodepay(HttpServletRequest request, HttpServletResponse response, String order_id){
+    	
+    	String UNI_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+    	OrderForm of = this.orderFormService.getObjById(CommUtil.null2Long(order_id));
 		String returnhtml = null;
 		if (of.getOrder_status() == 10) {
-
+			
 			List payments = new ArrayList();
 			Map params = new HashMap();
-			// 判断是否平台支付
+			//判断是否平台支付
 			if (this.configService.getSysConfig().getConfig_payment_type() == 1) {
 				params.put("mark", "wxcodepay");
 				params.put("type", "admin");
-				payments = this.paymentService
-						.query("select obj from Payment obj where obj.mark=:mark and obj.type=:type", params, -1, -1);
+				payments = this.paymentService.query(
+						"select obj from Payment obj where obj.mark=:mark and obj.type=:type", params, -1, -1);
 			} else {
 				params.put("mark", "wxcodepay");
 				params.put("store_id", of.getStore().getId());
@@ -1440,7 +1414,7 @@ public class CartViewAction {
 			of.setPayment(payment);
 			this.orderFormService.update(of);
 
-			String codeUrl = "";// 微信返回的二维码地址信息
+			String codeUrl = "";//微信返回的二维码地址信息
 
 			SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
 			parameters.put("appid", payment.getWeixin_appId());// 公众账号id
@@ -1449,72 +1423,69 @@ public class CartViewAction {
 			parameters.put("body", "在线购物");// 商品描述
 			parameters.put("out_trade_no", order_id);// 商户订单号
 			parameters.put("total_fee", of.getTotalPrice().multiply(new BigDecimal(100)).setScale(0).toString());// 总金额
-			// parameters.put("total_fee", "1");
+			//parameters.put("total_fee", "1");
 			parameters.put("spbill_create_ip", WxCommonUtil.localIp());// 终端IP.Native支付填调用微信支付API的机器IP。
 			// 支付成功后回调的action，与JSAPI相同
-			// parameters.put("notify_url", basePath + NOTIFY_URL);//
-			// 支付成功后回调的action
-			parameters.put("notify_url", CommUtil.getURL(request) + "/wechat/paynotify.htm");// 支付成功后回调的action，与JSAPI相同
+			//parameters.put("notify_url", basePath + NOTIFY_URL);// 支付成功后回调的action
+			parameters.put("notify_url", CommUtil.getURL(request)+"/wechat/paynotify.htm");//支付成功后回调的action，与JSAPI相同
 			parameters.put("trade_type", "NATIVE");// 交易类型
 			parameters.put("product_id", order_id);// 商品ID。商品号要唯一,trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义
-			// String sign = WxPayUtil.createSign2("UTF-8", parameters,
-			// API_KEY);
+			//String sign = WxPayUtil.createSign2("UTF-8", parameters, API_KEY);
 			String sign = WxCommonUtil.createSignMD5("UTF-8", parameters, payment.getWeixin_paySignKey());
 			parameters.put("sign", sign);// 签名
 			String requestXML = WxCommonUtil.getRequestXml(parameters);
-			logger.info("requestXML" + requestXML);
-			String result = WxCommonUtil.httpsRequestString(UNI_URL, "POST", requestXML);// WxCommonUtil.httpsRequest(WxConstants.UNIFIED_ORDER_URL,
-																							// "POST",
-																							// requestXML);
+			logger.info("requestXML"+requestXML);
+			String result = WxCommonUtil.httpsRequestString(UNI_URL, "POST", requestXML);//WxCommonUtil.httpsRequest(WxConstants.UNIFIED_ORDER_URL, "POST", requestXML);
 			// System.out.println(" 微信支付二维码生成" + result);
 			Map<String, String> map = new HashMap<String, String>();
 			try {
 				map = WxCommonUtil.doXMLParse(result);
-				logger.info("------------------code_url=" + map.get("code_url") + ";      result_code="
-						+ map.get("code_url") + "------------------------------");
+				logger.info("------------------code_url="+map.get("code_url")+";      result_code="+map.get("code_url")+"------------------------------");
 			} catch (Exception e) {
-				logger.error("doXMLParse()--error", e);
+				logger.error("doXMLParse()--error",e);
 			}
 			String returnCode = map.get("return_code");
 			String resultCode = map.get("result_code");
-
-			if (returnCode.equalsIgnoreCase("SUCCESS") && resultCode.equalsIgnoreCase("SUCCESS")) {
+			
+			if (returnCode.equalsIgnoreCase("SUCCESS")
+					&& resultCode.equalsIgnoreCase("SUCCESS")) {
 				codeUrl = map.get("code_url");
 				// 拿到codeUrl，生成二维码图片
 				byte[] imgs = QRCodeEncoderHandler.createQRCode(codeUrl);
 
-				String urls = request.getSession().getServletContext().getRealPath("/")
-						+ this.configService.getSysConfig().getUploadFilePath() + java.io.File.separator + "weixin_qr"
-						+ java.io.File.separator + "wxpay" + java.io.File.separator;
+				String urls = request.getSession().getServletContext().getRealPath("/")+this.configService.getSysConfig().getUploadFilePath()
+						+ java.io.File.separator + "weixin_qr" + java.io.File.separator + "wxpay"
+						+ java.io.File.separator;
 				// 图片的实际路径
 				String imgfile = urls + order_id + ".png";
-
+				
 				QRCodeEncoderHandler.saveImage(imgs, imgfile, "png");
-
+				
 				// 图片的网路路径
-				String imgUrl = CommUtil.getURL(request) + "/" + this.configService.getSysConfig().getUploadFilePath()
+				String imgUrl = CommUtil.getURL(request) + "/"
+						+ this.configService.getSysConfig().getUploadFilePath() 
 						+ "/weixin_qr/wxpay/" + order_id + ".png";
 
-				logger.info("图片的网路路径imgurl={}", imgUrl);
-
-				returnhtml = "<img src='" + imgUrl + "' style='width:200px;height:200px;'/>";
-
+				logger.info("图片的网路路径imgurl={}",imgUrl);
+				
+				returnhtml = "<img src='"+imgUrl+"' style='width:200px;height:200px;'/>";
+				
 			} else {
 				returnhtml = "支付状态不正确";
 			}
 		}
 		response.setContentType("text/plain");
-		response.setHeader("Cache-Control", "no-cache");
-		response.setCharacterEncoding("UTF-8");
-		try {
+        response.setHeader("Cache-Control", "no-cache");
+        response.setCharacterEncoding("UTF-8");
+        try {
 			PrintWriter writer = response.getWriter();
 			writer.print(returnhtml);
-		} catch (IOException e) {
+        } catch (IOException e) {
 			e.printStackTrace();
-		}
-		// return returnhtml;
-	}
-
+        }
+    	//return returnhtml;
+    }
+    
 	@SecurityMapping(display = false, rsequence = 0, title = "订单线下支付", value = "/order_pay_outline.htm*", rtype = "buyer", rname = "购物流程3", rcode = "goods_cart", rgroup = "在线购物")
 	@RequestMapping({ "/order_pay_outline.htm" })
 	public ModelAndView order_pay_outline(HttpServletRequest request, HttpServletResponse response, String payType,
@@ -1719,8 +1690,8 @@ public class CartViewAction {
 	public ModelAndView order_finish(HttpServletRequest request, HttpServletResponse response, String order_id) {
 		ModelAndView mv = new JModelAndView("order_finish.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 			mv = new JModelAndView("wap/order_finish.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
 		}
@@ -1731,13 +1702,12 @@ public class CartViewAction {
 
 	@SecurityMapping(display = false, rsequence = 0, title = "地址新增", value = "/cart_address.htm*", rtype = "buyer", rname = "购物流程3", rcode = "goods_cart", rgroup = "在线购物")
 	@RequestMapping({ "/cart_address.htm" })
-	public ModelAndView cart_address(HttpServletRequest request, HttpServletResponse response, String id,
-			String store_id) {
-
+	public ModelAndView cart_address(HttpServletRequest request, HttpServletResponse response, String id, String store_id) {
+		
 		ModelAndView mv = new JModelAndView("cart_address.html", this.configService.getSysConfig(),
 				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
+		String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
 			mv = new JModelAndView("wap/cart_address.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
 		}
@@ -1749,8 +1719,7 @@ public class CartViewAction {
 
 	@SecurityMapping(display = false, rsequence = 0, title = "购物车中收货地址保存", value = "/cart_address_save.htm*", rtype = "buyer", rname = "购物流程3", rcode = "goods_cart", rgroup = "在线购物")
 	@RequestMapping({ "/cart_address_save.htm" })
-	public String cart_address_save(HttpServletRequest request, HttpServletResponse response, String id, String area_id,
-			String store_id) {
+	public String cart_address_save(HttpServletRequest request, HttpServletResponse response, String id, String area_id, String store_id) {
 		WebForm wf = new WebForm();
 		Address address = null;
 		if (id.equals("")) {
@@ -1798,66 +1767,63 @@ public class CartViewAction {
 		}
 	}
 
-	@SecurityMapping(display = false, rsequence = 0, title = "收货地址列表", value = "/address.htm*", rtype = "buyer", rname = "用户中心", rcode = "user_center", rgroup = "用户中心")
-	@RequestMapping({ "/address.htm" })
-	public ModelAndView address(HttpServletRequest request, HttpServletResponse response, String currentPage,
-			String orderBy, String orderType, String store_id) {
-		ModelAndView mv = new JModelAndView("address.html", this.configService.getSysConfig(),
-				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
-			mv = new JModelAndView("wap/address.html", this.configService.getSysConfig(),
+	   @SecurityMapping(display = false, rsequence = 0, title="收货地址列表", value="/address.htm*", rtype="buyer", rname="用户中心", rcode="user_center", rgroup="用户中心")
+	   @RequestMapping({"/address.htm"})
+	   public ModelAndView address(HttpServletRequest request, HttpServletResponse response, String currentPage, String orderBy, String orderType, String store_id)
+	   {
+	     ModelAndView mv = new JModelAndView("address.html", this.configService.getSysConfig(), this.userConfigService.getUserConfig(), 1, request, response);
+	     String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		 if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
+			 mv = new JModelAndView("wap/address.html", this.configService.getSysConfig(), this.userConfigService.getUserConfig(), 1, request, response);
+		 }
+	     String url = this.configService.getSysConfig().getAddress();
+	     if ((url == null) || (url.equals(""))) {
+	       url = CommUtil.getURL(request);
+	     }
+	     String params = "";
+	     AddressQueryObject qo = new AddressQueryObject(currentPage, mv, orderBy, orderType);
+	     qo.addQuery("obj.user.id", new SysMap("user_id", SecurityUserHolder.getCurrentUser().getId()), "=");
+	     IPageList pList = this.addressService.list(qo);
+	     CommUtil.saveIPageList2ModelAndView(url + "/address.htm", "", params, pList, mv);
+	     List areas = this.areaService.query("select obj from Area obj where obj.parent.id is null", null, -1, -1);
+	     mv.addObject("areas", areas);
+	     mv.addObject("store_id", store_id);
+	     return mv;
+	   }
+	   
+	   @SecurityMapping(display = false, rsequence = 0, title="修改收货地址", value="/address_edit.htm*", rtype="buyer", rname="用户中心", rcode="user_center", rgroup="用户中心")
+	   @RequestMapping({"/address_edit.htm"})
+	   public ModelAndView address_edit(HttpServletRequest request, HttpServletResponse response, String id, String currentPage, String store_id) {
+	     
+		 ModelAndView mv = new JModelAndView("cart_address.html", this.configService.getSysConfig(),
 					this.userConfigService.getUserConfig(), 1, request, response);
-		}
-		String url = this.configService.getSysConfig().getAddress();
-		if ((url == null) || (url.equals(""))) {
-			url = CommUtil.getURL(request);
-		}
-		String params = "";
-		AddressQueryObject qo = new AddressQueryObject(currentPage, mv, orderBy, orderType);
-		qo.addQuery("obj.user.id", new SysMap("user_id", SecurityUserHolder.getCurrentUser().getId()), "=");
-		IPageList pList = this.addressService.list(qo);
-		CommUtil.saveIPageList2ModelAndView(url + "/address.htm", "", params, pList, mv);
-		List areas = this.areaService.query("select obj from Area obj where obj.parent.id is null", null, -1, -1);
-		mv.addObject("areas", areas);
-		mv.addObject("store_id", store_id);
-		return mv;
-	}
-
-	@SecurityMapping(display = false, rsequence = 0, title = "修改收货地址", value = "/address_edit.htm*", rtype = "buyer", rname = "用户中心", rcode = "user_center", rgroup = "用户中心")
-	@RequestMapping({ "/address_edit.htm" })
-	public ModelAndView address_edit(HttpServletRequest request, HttpServletResponse response, String id,
-			String currentPage, String store_id) {
-
-		ModelAndView mv = new JModelAndView("cart_address.html", this.configService.getSysConfig(),
-				this.userConfigService.getUserConfig(), 1, request, response);
-		String shopping_view_type = CommUtil.null2String(request.getSession().getAttribute("shopping_view_type"));
-		if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && (shopping_view_type.equals("wap"))) {
-			mv = new JModelAndView("wap/cart_address.html", this.configService.getSysConfig(),
-					this.userConfigService.getUserConfig(), 1, request, response);
-		}
-		List areas = this.areaService.query("select obj from Area obj where obj.parent.id is null", null, -1, -1);
-		Address obj = this.addressService.getObjById(CommUtil.null2Long(id));
-		mv.addObject("obj", obj);
-		mv.addObject("areas", areas);
-		mv.addObject("store_id", store_id);
-		mv.addObject("currentPage", currentPage);
-		return mv;
-	}
-
-	@SecurityMapping(display = false, rsequence = 0, title = "收货地址删除", value = "/address_del.htm*", rtype = "buyer", rname = "用户中心", rcode = "user_center", rgroup = "用户中心")
-	@RequestMapping({ "/address_del.htm" })
-	public String address_del(HttpServletRequest request, HttpServletResponse response, String mulitId,
-			String currentPage, String store_id) {
-		String[] ids = mulitId.split(",");
-		for (String id : ids) {
-			if (!id.equals("")) {
-				Address address = this.addressService.getObjById(Long.valueOf(Long.parseLong(id)));
-				this.addressService.delete(Long.valueOf(Long.parseLong(id)));
-			}
-		}
-		return "redirect:goods_cart2.htm?store_id=" + store_id;
-	}
+		 String shopping_view_type = CommUtil.null2String( request.getSession().getAttribute( "shopping_view_type" ) );
+		 if( (shopping_view_type != null) && (!shopping_view_type.equals( "" )) && (shopping_view_type.equals( "wap" )) ) {
+			 mv = new JModelAndView("wap/cart_address.html", this.configService.getSysConfig(),
+						this.userConfigService.getUserConfig(), 1, request, response);
+		 }
+	     List areas = this.areaService.query("select obj from Area obj where obj.parent.id is null", null, -1, -1);
+	     Address obj = this.addressService.getObjById(CommUtil.null2Long(id));
+	     mv.addObject("obj", obj);
+	     mv.addObject("areas", areas);
+	     mv.addObject("store_id", store_id);
+	     mv.addObject("currentPage", currentPage);
+	     return mv;
+	   }
+	 
+	   @SecurityMapping(display = false, rsequence = 0, title="收货地址删除", value="/address_del.htm*", rtype="buyer", rname="用户中心", rcode="user_center", rgroup="用户中心")
+	   @RequestMapping({"/address_del.htm"})
+	   public String address_del(HttpServletRequest request, HttpServletResponse response, String mulitId, String currentPage, String store_id) {
+	     String[] ids = mulitId.split(",");
+	     for (String id : ids) {
+	       if (!id.equals("")) {
+	         Address address = this.addressService.getObjById(Long.valueOf(Long.parseLong(id)));
+	         this.addressService.delete(Long.valueOf(Long.parseLong(id)));
+	       }
+	     }
+	     return "redirect:goods_cart2.htm?store_id=" + store_id;
+	   }
+	   
 
 	private void send_email(HttpServletRequest request, OrderForm order, String email, String mark) throws Exception {
 		com.shopping.foundation.domain.Template template = this.templateService.getObjByProperty("mark", mark);

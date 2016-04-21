@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.OrderFormLog;
 import org.springframework.stereotype.Repository;
 
 @Repository("orderFormLogDAO")
-public class OrderFormLogDAO extends GenericDAO<OrderFormLog> {
+public class OrderFormLogDAO extends GenericDAO<OrderFormLog>
+{
 }
+

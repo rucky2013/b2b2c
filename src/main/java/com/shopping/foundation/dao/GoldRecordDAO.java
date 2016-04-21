@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.GoldRecord;
 import org.springframework.stereotype.Repository;
 
 @Repository("goldRecordDAO")
-public class GoldRecordDAO extends GenericDAO<GoldRecord> {
+public class GoldRecordDAO extends GenericDAO<GoldRecord>
+{
 }
+

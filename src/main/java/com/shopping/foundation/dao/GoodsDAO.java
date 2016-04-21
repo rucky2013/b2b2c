@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.Goods;
 import org.springframework.stereotype.Repository;
 
 @Repository("goodsDAO")
-public class GoodsDAO extends GenericDAO<Goods> {
+public class GoodsDAO extends GenericDAO<Goods>
+{
 }
+

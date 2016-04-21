@@ -5,5 +5,6 @@ import com.shopping.foundation.domain.Payment;
 import org.springframework.stereotype.Repository;
 
 @Repository("paymentDAO")
-public class PaymentDAO extends GenericDAO<Payment> {
+public class PaymentDAO extends GenericDAO<Payment>
+{
 }

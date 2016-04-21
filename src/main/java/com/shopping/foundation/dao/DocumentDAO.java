@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.Document;
 import org.springframework.stereotype.Repository;
 
 @Repository("documentDAO")
-public class DocumentDAO extends GenericDAO<Document> {
+public class DocumentDAO extends GenericDAO<Document>
+{
 }
+

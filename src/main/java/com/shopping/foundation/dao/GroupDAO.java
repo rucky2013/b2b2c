@@ -5,5 +5,6 @@ import com.shopping.foundation.domain.Group;
 import org.springframework.stereotype.Repository;
 
 @Repository("groupDAO")
-public class GroupDAO extends GenericDAO<Group> {
+public class GroupDAO extends GenericDAO<Group>
+{
 }

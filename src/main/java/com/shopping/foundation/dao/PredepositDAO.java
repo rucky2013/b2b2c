@@ -5,5 +5,7 @@ import com.shopping.foundation.domain.Predeposit;
 import org.springframework.stereotype.Repository;
 
 @Repository("predepositDAO")
-public class PredepositDAO extends GenericDAO<Predeposit> {
+public class PredepositDAO extends GenericDAO<Predeposit>
+{
 }
+
