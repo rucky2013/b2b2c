@@ -197,13 +197,11 @@ import org.springframework.web.servlet.ModelAndView;
      String login_role = (String)request.getSession(false).getAttribute("login_role");
      ModelAndView mv = null;
      String shopping_view_type = CommUtil.null2String(request.getSession(false).getAttribute("shopping_view_type"));
-     if ((shopping_view_type != null) && (!shopping_view_type.equals(""))) {
-       if (shopping_view_type.equals("wap")) {
+     if ((shopping_view_type != null) && (!shopping_view_type.equals("")) && shopping_view_type.equals("wap")) {
          //String store_id = CommUtil.null2String(request.getSession(false).getAttribute("store_id"));
          mv = new JModelAndView("wap/error.html", this.configService.getSysConfig(), 
            this.userConfigService.getUserConfig(), 1, request, response);
          mv.addObject("url", CommUtil.getURL(request) + "/wap/index.htm");
-       }
      } else {
        if (login_role == null)
          login_role = "user";
