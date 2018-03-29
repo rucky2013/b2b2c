@@ -3,29 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.dounine</groupId>
-	<artifactId>b2b2c</artifactId>
+	<artifactId>shopping</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1</version>
-	<description>b2b2c</description>
+	<description>shopping</description>
     <url>https://github.com/dounine/b2b2c</url>
     <inceptionYear>2016-04-20</inceptionYear>
 
-	<name>b2b2c</name>
+	<name>shopping</name>
 
 	<properties>
 	  	<argLine>-Dfile.encoding=UTF-8</argLine>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.7</jdk.version>
 		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
-		<spring.version>4.2.5.RELEASE</spring.version>
-		<junit.version>4.12</junit.version>
-		<javax.servlet.version>3.1.0</javax.servlet.version>
-		<jackson.version>2.5.3</jackson.version>
-		<commons-fileupload.version>1.3.1</commons-fileupload.version>
-		<commons.version>3.4</commons.version>
-		<slf4j.version>1.7.16</slf4j.version>
+		<mysql.version>5.1.36</mysql.version>
 		<fastjson.version>1.2.8</fastjson.version>
-		<clouddisk.version>1.1.2</clouddisk.version>
 	  </properties>
 
 	<dependencies>
@@ -373,6 +366,11 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/json_simple-1.1.jar</systemPath>
 		</dependency>
 		<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+		<dependency>
 			<groupId>jsoup-1.6.1.jar</groupId>
 			<artifactId>jsoup-1.6.1.jar</artifactId>
 			<version>1.1.2</version>
@@ -443,11 +441,9 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/mail.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>mysql-connector-java-5.0.5.jar</groupId>
-			<artifactId>mysql-connector-java-5.0.5.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/mysql-connector-java-5.0.5.jar</systemPath>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nutz-1.b.40-jdk5.jar</groupId>
@@ -632,11 +628,9 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/thumbelina.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>urlrewritefilter-4.0.3.jar</groupId>
-			<artifactId>urlrewritefilter-4.0.3.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/urlrewritefilter-4.0.3.jar</systemPath>
+		    <groupId>org.tuckey</groupId>
+		    <artifactId>urlrewritefilter</artifactId>
+		    <version>4.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>velocity-1.5.jar</groupId>
@@ -653,18 +647,6 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/velocity-dep-1.5.jar</systemPath>
 		</dependency>
 
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-			<version>5.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-commons</artifactId>
-			<version>5.1</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -678,58 +660,6 @@
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<!-- 编译插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-			  <groupId>org.zeroturnaround</groupId>
-			  <artifactId>jrebel-maven-plugin</artifactId>
-			  <configuration>
-			  	<packaging>war</packaging>
-			  	<classpath>
-			      <fallback>default</fallback>
-			      <resources>
-			        <resource>
-			          <directory>target/classes</directory>
-			          <includes>
-			            <include>dnn/**</include>
-			            <include>common/**</include>
-			          </includes>
-			        </resource>
-			      </resources>
-			    </classpath>
-			    <addResourcesDirToRebelXml>true</addResourcesDirToRebelXml>
-			    <alwaysGenerate>true</alwaysGenerate>
-			  </configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-					<httpConnector>
-			          <port>8080</port>
-			        </httpConnector>
-			        <stopKey>shutdown</stopKey>
-			        <stopPort>9966</stopPort>
-					<reload>manual</reload><!-- 在控制台按Enter键可重新部署 -->
-					<scanIntervalSeconds>0</scanIntervalSeconds>
-					<webApp>
-						<contextPath>/${project.artifactId}</contextPath>
-					</webApp>
-					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-						<filename>target/访问请求记录-yyyy_mm_dd.log</filename><!-- 日志文件名称 -->
-						<filenameDateFormat>yyyy_MM_dd</filenameDateFormat><!-- 日志名称日期格式化方式 -->
-						<logDateFormat>yyyy-MM-dd HH:mm:ss</logDateFormat><!-- 日志内容日期格式化方式 -->
-						<logTimeZone>GMT+8:00</logTimeZone><!-- 时区 -->
-						<append>true</append><!-- 追加到日志 -->
-						<logServer>true</logServer><!-- 记录访问的主机名 -->
-						<retainDays>1</retainDays><!-- 日志文件保存的天数, 超过删除 -->
-						<logCookies>true</logCookies><!-- 记录 cookies -->
-					</requestLog>
 				</configuration>
 			</plugin>
 		</plugins>

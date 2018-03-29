@@ -84,9 +84,8 @@
  
    @RequestMapping({"/article.htm"})
    public ModelAndView article(HttpServletRequest request, HttpServletResponse response, String param) {
-     ModelAndView mv = new JModelAndView("article.html", this.configService
-       .getSysConfig(), this.userConfigService.getUserConfig(), 1, 
-       request, response);
+     ModelAndView mv = new JModelAndView("article.html", this.configService.getSysConfig(), 
+    		 this.userConfigService.getUserConfig(), 1, request, response);
      Article obj = null;
      Long id = CommUtil.null2Long(param);
      String mark = "";
@@ -99,13 +98,10 @@
      if (!mark.equals("")) {
        obj = this.articleService.getObjByProperty("mark", mark);
      }
-     List acs = this.articleClassService
-       .query(
-       "select obj from ArticleClass obj where obj.parent.id is null order by obj.sequence asc", 
-       null, -1, -1);
+     List acs = this.articleClassService.query(
+       "select obj from ArticleClass obj where obj.parent.id is null order by obj.sequence asc", null, -1, -1);
      List articles = this.articleService.query(
-       "select obj from Article obj order by obj.addTime desc", null, 
-       0, 6);
+       "select obj from Article obj order by obj.addTime desc", null, 0, 6);
      mv.addObject("articles", articles);
      mv.addObject("acs", acs);
      mv.addObject("obj", obj);
